@@ -1,5 +1,5 @@
 ﻿using InnoShop.ProductService.CrossCutting.Exceptions;
-using InnoShop.UserService.CrossCutting.Models;
+using InnoShop.ProductService.CrossCutting.Models;
 using System.Text.Json;
 
 namespace InnoShop.ProductService.WebApi.Middlewares;

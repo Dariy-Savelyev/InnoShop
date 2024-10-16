@@ -1,4 +1,4 @@
-﻿using InnoShop.UserService.CrossCutting.Models;
+﻿using InnoShop.ProductService.CrossCutting.Models;
 
 namespace InnoShop.ProductService.CrossCutting.Exceptions;
 

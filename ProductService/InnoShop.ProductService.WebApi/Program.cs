@@ -1,6 +1,5 @@
 ﻿using FluentValidation.AspNetCore;
 using InnoShop.ProductService.Container;
-using InnoShop.ProductService.CrossCutting.Extensions;
 using InnoShop.ProductService.WebApi.Middlewares;
 
 namespace InnoShop.ProductService.WebApi;
@@ -40,7 +39,6 @@ public class Program
         var app = builder.Build();
 
         app.Migrate();
-        app.Services.SeedRoles();
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
 

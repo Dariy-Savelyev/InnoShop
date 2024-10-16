@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
 using InnoShop.ProductService.Application.ComponentInterfaces;
-using InnoShop.ProductService.Application.MapperProfiles;
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.Application.Validators;
 using InnoShop.ProductService.CrossCutting.Constants;
-using InnoShop.ProductService.Domain;
-using InnoShop.ProductService.Domain.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -32,20 +29,7 @@ public static class ApplicationModule
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        builder.Services.AddAutoMapper(typeof(UserProfile));
-
         builder.Services.AddValidatorsFromAssemblyContaining<LoginValidator>();
-
-        var builder1 = builder.Services.AddIdentityCore<User>(options =>
-        {
-            options.Lockout.AllowedForNewUsers = true;
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
-            options.Lockout.MaxFailedAccessAttempts = 5;
-        });
-        var identityBuilder = new IdentityBuilder(builder1.UserType, builder1.Services);
-        identityBuilder.AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationContext>()
-            .AddSignInManager<SignInManager<User>>();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {

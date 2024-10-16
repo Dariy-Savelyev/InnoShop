@@ -1,4 +1,4 @@
-﻿namespace InnoShop.UserService.CrossCutting.Models;
+﻿namespace InnoShop.ProductService.CrossCutting.Models;
 
 public class ResponseError(string fieldName, IReadOnlyCollection<string> messages)
 {
