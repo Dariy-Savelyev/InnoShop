@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\**" />
+    <EmbeddedResource Remove="Components\**" />
+    <None Remove="Components\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\InnoShop.ProductService.CrossCutting\InnoShop.ProductService.CrossCutting.csproj" />
     <ProjectReference Include="..\InnoShop.ProductService.Domain\InnoShop.ProductService.Domain.csproj" />
   </ItemGroup>
@@ -20,10 +26,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\" />
   </ItemGroup>
 
 </Project>

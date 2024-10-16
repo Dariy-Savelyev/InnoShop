@@ -42,9 +42,6 @@ public class Program
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-        app.UseDefaultFiles();
-        app.UseStaticFiles();
-
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -56,8 +53,6 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
-        app.MapFallbackToFile("/index.html");
 
         app.Run();
     }

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using InnoShop.ProductService.Application.ComponentInterfaces;
+using InnoShop.ProductService.Application.MapperProfiles;
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.Application.Validators;
 using InnoShop.ProductService.CrossCutting.Constants;
@@ -18,22 +18,17 @@ public static class ApplicationModule
     public static WebApplicationBuilder LoadApplicationModule(this WebApplicationBuilder builder)
     {
         builder.Services.Scan(scan => scan
-            .FromAssemblyOf<IBaseComponent>()
-            .AddClasses(classes => classes.AssignableTo(typeof(IBaseComponent)))
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
-
-        builder.Services.Scan(scan => scan
             .FromAssemblyOf<IBaseService>()
             .AddClasses(classes => classes.AssignableTo(typeof(IBaseService)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        builder.Services.AddValidatorsFromAssemblyContaining<LoginValidator>();
+        builder.Services.AddAutoMapper(typeof(ProductProfile));
+
+        builder.Services.AddValidatorsFromAssemblyContaining<ProductValidator>();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
-            // Default Lockout settings.
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             options.Lockout.MaxFailedAccessAttempts = 5;
             options.Lockout.AllowedForNewUsers = true;
@@ -84,7 +79,7 @@ public static class ApplicationModule
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "ChatBot API",
+                Title = "Product API",
                 Version = "v1"
             });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

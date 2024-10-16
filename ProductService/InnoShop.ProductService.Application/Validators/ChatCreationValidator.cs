@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+﻿/*using FluentValidation;
 using InnoShop.ProductService.Application.Models;
 
 namespace InnoShop.ProductService.Application.Validators;
@@ -11,4 +11,4 @@ public class ChatCreationValidator : AbstractValidator<ChatModel>
             .NotEmpty()
             .NotNull();
     }
-}
+}*/
