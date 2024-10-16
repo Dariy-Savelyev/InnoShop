@@ -5,7 +5,7 @@ namespace InnoShop.ProductService.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-[Authorize]
+//[Authorize]
 public class BaseController : ControllerBase
 {
 }

@@ -3,17 +3,17 @@ using InnoShop.ProductService.Application.Models;
 
 namespace InnoShop.ProductService.Application.Validators;
 
-public class LoginValidator : AbstractValidator<LoginModel>
+public class ProductValidator : AbstractValidator<ProductModel>
 {
-    public LoginValidator()
+    public ProductValidator()
     {
-        RuleFor(x => x.Email)
+        /*RuleFor(x => x.Email)
             .NotEmpty()
             .NotNull()
             .EmailAddress();
 
         RuleFor(x => x.Password)
             .NotEmpty()
-            .NotNull();
+            .NotNull();*/
     }
 }
