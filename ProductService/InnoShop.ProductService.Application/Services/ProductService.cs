@@ -31,9 +31,9 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         await productRepository.ModifyAsync(product);
     }
 
-    public async Task DeleteProductAsync(int productId)
+    public async Task DeleteProductAsync(DeletedProductModel model)
     {
-        var product = await productRepository.GetByIdAsync(productId);
+        var product = mapper.Map<Product>(model);
 
         await productRepository.DeleteAsync(product!);
     }

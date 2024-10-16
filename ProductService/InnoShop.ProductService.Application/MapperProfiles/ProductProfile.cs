@@ -21,5 +21,7 @@ public class ProductProfile : Profile
                 dest => dest.CreationDate,
                 opt => opt.MapFrom(x => DateTime.UtcNow))
             ;
+
+        CreateMap<DeletedProductModel, Product>();
     }
 }

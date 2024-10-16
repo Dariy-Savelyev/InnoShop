@@ -25,8 +25,8 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpDelete]
-    public async Task Delete(int productId)
+    public async Task Delete(DeletedProductModel model)
     {
-        await service.DeleteProductAsync(productId);
+        await service.DeleteProductAsync(model);
     }
 }
