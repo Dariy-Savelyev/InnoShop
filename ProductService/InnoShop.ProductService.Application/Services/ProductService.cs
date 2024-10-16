@@ -23,4 +23,18 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
 
         await productRepository.AddAsync(product);
     }
+
+    public async Task EditProductAsync(EditedProductModel model)
+    {
+        var product = mapper.Map<Product>(model);
+
+        await productRepository.ModifyAsync(product);
+    }
+
+    public async Task DeleteProductAsync(int productId)
+    {
+        var product = await productRepository.GetByIdAsync(productId);
+
+        await productRepository.DeleteAsync(product!);
+    }
 }

@@ -6,4 +6,6 @@ public interface IProductService : IBaseService
 {
     Task<IEnumerable<GetAllProductModel>> GetAllProductsAsync();
     Task CreateProductAsync(ProductModel model);
+    Task EditProductAsync(EditedProductModel model);
+    Task DeleteProductAsync(int productId);
 }

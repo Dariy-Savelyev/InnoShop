@@ -17,4 +17,16 @@ public class ProductController(IProductService service) : BaseController
     {
         await service.CreateProductAsync(model);
     }
+
+    [HttpPut]
+    public async Task Edit(EditedProductModel model)
+    {
+        await service.EditProductAsync(model);
+    }
+
+    [HttpDelete]
+    public async Task Delete(int productId)
+    {
+        await service.DeleteProductAsync(productId);
+    }
 }

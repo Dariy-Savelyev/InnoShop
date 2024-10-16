@@ -15,5 +15,11 @@ public class ProductProfile : Profile
             ;
 
         CreateMap<Product, GetAllProductModel>();
+
+        CreateMap<EditedProductModel, Product>()
+            .ForMember(
+                dest => dest.CreationDate,
+                opt => opt.MapFrom(x => DateTime.UtcNow))
+            ;
     }
 }
