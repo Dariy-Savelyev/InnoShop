@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using InnoShop.ProductService.Application.Models;
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.Domain.Models;
@@ -32,4 +32,4 @@ public class ChatService(IChatRepository chatRepository, IMapper mapper) : IChat
 
         return chats;
     }
-}
+}*/

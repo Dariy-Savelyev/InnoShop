@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using InnoShop.UserService.Application.ComponentInterfaces;
 using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
 using InnoShop.UserService.CrossCutting.Exceptions;
@@ -11,7 +10,6 @@ namespace InnoShop.UserService.Application.Services;
 public class MessageService(
     IMessageRepository messageRepository,
     IChatRepository chatRepository,
-    IBotComponent botComponent,
     IMapper mapper) : IMessageService
 {
     public async Task<int> SendMessageAsync(HubAddMessageModel model, string userId)
@@ -33,16 +31,7 @@ public class MessageService(
 
         await messageRepository.AddAsync(message);
 
-        var botMessage = await botComponent.GetResponseAsync(message.Content);
-
-        if (botMessage != null)
-        {
-            message.Content = botMessage;
-
-            await messageRepository.AddAsync(message);
-        }
-
-        Console.WriteLine("Response =======================> " + botMessage);
+        await messageRepository.AddAsync(message);
 
         return message.Id;
     }

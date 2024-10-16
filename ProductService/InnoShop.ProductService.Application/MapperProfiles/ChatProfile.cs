@@ -8,7 +8,7 @@ public class ChatProfile : Profile
 {
     public ChatProfile()
     {
-        CreateMap<ChatModel, Chat>()
+        /*CreateMap<ChatModel, Chat>()
             .ForMember(
                 dest => dest.DateCreate,
                 opt => opt.MapFrom(x => DateTime.UtcNow))
@@ -16,6 +16,6 @@ public class ChatProfile : Profile
 
         CreateMap<Chat, GetAllChatModel>()
             .ForMember(dest => dest.UserIds, opt => opt.MapFrom(src => src.Users.Select(u => u.Id)))
-            ;
+            ;*/
     }
 }
