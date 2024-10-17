@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InnoShop.ProductService.Application.Models;
 using InnoShop.ProductService.Application.ServiceInterfaces;
+using InnoShop.ProductService.CrossCutting.Enums;
 using InnoShop.ProductService.Domain.Models;
 using InnoShop.ProductService.Domain.RepositoryInterfaces;
 
@@ -33,6 +34,24 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         var products = mapper.Map<IEnumerable<SearchProductModel>>(productsDb);
 
         return products;
+    }
+
+    public async Task<IEnumerable<SortedProductModel>> SortProductsByNameAsync(SortFieldEnum sortField, SortOrderEnum sortOrder)
+    {
+        var productsDb = await productRepository.GetAllAsync();
+
+        var products = mapper.Map<IEnumerable<SortedProductModel>>(productsDb);
+
+        return sortField switch
+        {
+            SortFieldEnum.Name => sortOrder == SortOrderEnum.Descending
+                ? products.OrderByDescending(x => x.Name)
+                : products.OrderBy(x => x.Name),
+            SortFieldEnum.Price => sortOrder == SortOrderEnum.Descending
+                ? products.OrderByDescending(x => x.Price)
+                : products.OrderBy(x => x.Price),
+            _ => throw new ArgumentException("Invalid sort field", nameof(sortField))
+        };
     }
 
     public async Task CreateProductAsync(CreationProductModel model)
