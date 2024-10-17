@@ -8,7 +8,7 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
-        CreateMap<ProductModel, Product>()
+        CreateMap<CreationProductModel, Product>()
             .ForMember(
                 dest => dest.CreationDate,
                 opt => opt.MapFrom(x => DateTime.UtcNow))
@@ -16,12 +16,12 @@ public class ProductProfile : Profile
 
         CreateMap<Product, GetAllProductModel>();
 
-        CreateMap<EditedProductModel, Product>()
+        CreateMap<ModificationProductModel, Product>()
             .ForMember(
                 dest => dest.CreationDate,
                 opt => opt.MapFrom(x => DateTime.UtcNow))
             ;
 
-        CreateMap<DeletedProductModel, Product>();
+        CreateMap<DeletionProductModel, Product>();
     }
 }

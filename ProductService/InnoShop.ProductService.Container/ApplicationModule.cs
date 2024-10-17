@@ -25,7 +25,7 @@ public static class ApplicationModule
 
         builder.Services.AddAutoMapper(typeof(ProductProfile));
 
-        builder.Services.AddValidatorsFromAssemblyContaining<ProductValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<ProductCreationValidator>();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {

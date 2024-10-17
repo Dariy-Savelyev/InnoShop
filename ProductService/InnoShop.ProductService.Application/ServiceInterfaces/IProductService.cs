@@ -5,7 +5,7 @@ namespace InnoShop.ProductService.Application.ServiceInterfaces;
 public interface IProductService : IBaseService
 {
     Task<IEnumerable<GetAllProductModel>> GetAllProductsAsync();
-    Task CreateProductAsync(ProductModel model);
-    Task EditProductAsync(EditedProductModel model);
-    Task DeleteProductAsync(DeletedProductModel model);
+    Task CreateProductAsync(CreationProductModel model);
+    Task EditProductAsync(ModificationProductModel model);
+    Task DeleteProductAsync(DeletionProductModel model);
 }

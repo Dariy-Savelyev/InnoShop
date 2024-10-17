@@ -1,8 +1,7 @@
 ﻿namespace InnoShop.ProductService.Application.Models;
 
-public class EditedProductModel
+public class CreationProductModel
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }

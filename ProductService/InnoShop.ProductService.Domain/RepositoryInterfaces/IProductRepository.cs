@@ -2,4 +2,7 @@
 
 namespace InnoShop.ProductService.Domain.RepositoryInterfaces;
 
-public interface IProductRepository : IBaseRepository<Product, int>;
+public interface IProductRepository : IBaseRepository<Product, int>
+{
+    bool IsUniqueName(string productName);
+}
