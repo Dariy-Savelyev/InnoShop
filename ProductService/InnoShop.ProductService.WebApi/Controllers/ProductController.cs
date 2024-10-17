@@ -13,19 +13,19 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpPost]
-    public async Task Create(ProductModel model)
+    public async Task Create(CreationProductModel model)
     {
         await service.CreateProductAsync(model);
     }
 
     [HttpPut]
-    public async Task Edit(EditedProductModel model)
+    public async Task Edit(ModificationProductModel model)
     {
         await service.EditProductAsync(model);
     }
 
     [HttpDelete]
-    public async Task Delete(DeletedProductModel model)
+    public async Task Delete(DeletionProductModel model)
     {
         await service.DeleteProductAsync(model);
     }

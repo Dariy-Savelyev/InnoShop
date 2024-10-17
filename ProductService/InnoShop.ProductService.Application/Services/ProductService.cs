@@ -17,21 +17,21 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         return products;
     }
 
-    public async Task CreateProductAsync(ProductModel model)
+    public async Task CreateProductAsync(CreationProductModel model)
     {
         var product = mapper.Map<Product>(model);
 
         await productRepository.AddAsync(product);
     }
 
-    public async Task EditProductAsync(EditedProductModel model)
+    public async Task EditProductAsync(ModificationProductModel model)
     {
         var product = mapper.Map<Product>(model);
 
         await productRepository.ModifyAsync(product);
     }
 
-    public async Task DeleteProductAsync(DeletedProductModel model)
+    public async Task DeleteProductAsync(DeletionProductModel model)
     {
         var product = mapper.Map<Product>(model);
 
