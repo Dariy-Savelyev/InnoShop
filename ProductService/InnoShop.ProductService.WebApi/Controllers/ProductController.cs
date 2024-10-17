@@ -12,6 +12,12 @@ public class ProductController(IProductService service) : BaseController
         return await service.GetAllProductsAsync();
     }
 
+    [HttpGet]
+    public async Task<SearchProductModel> SearchProductByName(string productName)
+    {
+        return await service.SearchProductByNameAsync(productName);
+    }
+
     [HttpPost]
     public async Task Create(CreationProductModel model)
     {

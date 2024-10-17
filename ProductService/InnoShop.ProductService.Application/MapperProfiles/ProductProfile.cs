@@ -23,5 +23,7 @@ public class ProductProfile : Profile
             ;
 
         CreateMap<DeletionProductModel, Product>();
+
+        CreateMap<Product, SearchProductModel>();
     }
 }

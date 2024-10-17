@@ -10,11 +10,20 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
 {
     public async Task<IEnumerable<GetAllProductModel>> GetAllProductsAsync()
     {
-        var source = await productRepository.GetAllAsync();
+        var productsDb = await productRepository.GetAllAsync();
 
-        var products = mapper.Map<IEnumerable<GetAllProductModel>>(source);
+        var products = mapper.Map<IEnumerable<GetAllProductModel>>(productsDb);
 
         return products;
+    }
+
+    public async Task<SearchProductModel> SearchProductByNameAsync(string productName)
+    {
+        var productDb = await productRepository.SearchProductByNameAsync(productName);
+
+        var product = mapper.Map<SearchProductModel>(productDb);
+
+        return product;
     }
 
     public async Task CreateProductAsync(CreationProductModel model)
