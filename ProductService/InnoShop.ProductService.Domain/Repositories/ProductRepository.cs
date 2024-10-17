@@ -6,13 +6,18 @@ namespace InnoShop.ProductService.Domain.Repositories;
 
 public class ProductRepository(ApplicationContext context) : BaseRepository<Product, int>(context), IProductRepository
 {
-    public Task<Product?> SearchProductByNameAsync(string productName)
+    public async Task<Product?> SearchProductByNameAsync(string productName)
     {
-        return Table.SingleOrDefaultAsync(x => x.Name == productName);
+        return await Table.SingleOrDefaultAsync(x => x.Name == productName);
+    }
+
+    public async Task<IEnumerable<Product?>> SearchProductsBySubstringAsync(string productNameSubstring)
+    {
+        return await Table.Where(x => x.Name.Contains(productNameSubstring)).ToListAsync();
     }
 
     public bool IsUniqueName(string productName)
     {
-        return Table.All(y => y.Name != productName);
+        return Table.All(x => x.Name != productName);
     }
 }

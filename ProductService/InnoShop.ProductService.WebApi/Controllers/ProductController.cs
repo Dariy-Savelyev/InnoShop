@@ -18,6 +18,12 @@ public class ProductController(IProductService service) : BaseController
         return await service.SearchProductByNameAsync(productName);
     }
 
+    [HttpGet]
+    public async Task<IEnumerable<SearchProductModel>> SearchProductsBySubstring(string productNameSubstring)
+    {
+        return await service.SearchProductsBySubstringAsync(productNameSubstring);
+    }
+
     [HttpPost]
     public async Task Create(CreationProductModel model)
     {

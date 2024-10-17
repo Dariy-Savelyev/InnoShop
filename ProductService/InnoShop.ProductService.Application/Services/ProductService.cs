@@ -26,6 +26,15 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         return product;
     }
 
+    public async Task<IEnumerable<SearchProductModel>> SearchProductsBySubstringAsync(string productNameSubstring)
+    {
+        var productsDb = await productRepository.SearchProductsBySubstringAsync(productNameSubstring);
+
+        var products = mapper.Map<IEnumerable<SearchProductModel>>(productsDb);
+
+        return products;
+    }
+
     public async Task CreateProductAsync(CreationProductModel model)
     {
         var product = mapper.Map<Product>(model);
