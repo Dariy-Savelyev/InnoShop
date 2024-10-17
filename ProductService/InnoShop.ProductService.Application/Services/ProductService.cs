@@ -36,7 +36,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         return products;
     }
 
-    public async Task<IEnumerable<SortedProductModel>> SortProductsByNameAsync(SortFieldEnum sortField, SortOrderEnum sortOrder)
+    public async Task<IEnumerable<SortedProductModel>> SortProductsByFieldAsync(SortFieldEnum sortField, SortOrderEnum sortOrder)
     {
         var productsDb = await productRepository.GetAllAsync();
 
