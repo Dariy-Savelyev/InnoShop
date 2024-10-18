@@ -12,7 +12,7 @@ using System.Text;
 
 namespace InnoShop.UserService.Application.Components;
 
-public class TokenComponent : ITokenComponent
+/*public class TokenComponent : ITokenComponent
 {
     private readonly SymmetricSecurityKey _key;
     private readonly IConfiguration _config;
@@ -92,4 +92,4 @@ public class TokenComponent : ITokenComponent
             new(ClaimsIdentity.DefaultRoleClaimType, userRoles.First()),
         ];
     }
-}
+}*/

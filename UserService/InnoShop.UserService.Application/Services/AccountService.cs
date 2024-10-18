@@ -9,15 +9,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace InnoShop.UserService.Application.Services;
 
-public class AccountService(
-    UserManager<User> userManager,
-    SignInManager<User> signInManager,
-    ITokenComponent tokenComponent,
-    IMapper mapper) : IAccountService
+public class AccountService(IMapper mapper) : IAccountService
 {
     public async Task RegistrationAsync(RegistrationModel model)
     {
-        var email = model.Email.Trim();
+        /*var email = model.Email.Trim();
         var userName = model.UserName.Trim();
         var user = await userManager.FindByEmailAsync(email);
         if (user != null)
@@ -50,13 +46,17 @@ public class AccountService(
             ExceptionHelper.ThrowArgumentException(nameof(model.Email), identityResultErrors);
         }
 
-        await userManager.AddToRoleAsync(user!, UserRoles.User);
-        await userManager.UpdateSecurityStampAsync(user!);
+        await userManager.UpdateSecurityStampAsync(user!);*/
     }
 
-    public async Task<string> LoginAsync(LoginModel model)
+    public Task<string> LoginAsync(LoginModel model)
     {
-        var email = model.Email.Trim();
+        throw new NotImplementedException();
+    }
+
+    /*public async Task<string> LoginAsync(LoginModel model)
+    {
+        /*var email = model.Email.Trim();
         var user = await userManager.FindByEmailAsync(email) ?? await userManager.FindByNameAsync(email);
 
         if (user == null)
@@ -76,5 +76,5 @@ public class AccountService(
         }
 
         throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
-    }
+    }*/
 }

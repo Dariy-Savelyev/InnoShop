@@ -8,10 +8,10 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<RegistrationModel, User>()
+        /*CreateMap<RegistrationModel, User>()
             .ForMember(
                 dest => dest.EmailConfirmed,
                 opt => opt.MapFrom(s => true))
-            ;
+            ;*/
     }
 }
