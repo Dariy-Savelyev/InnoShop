@@ -1,6 +1,5 @@
 ﻿using FluentValidation.AspNetCore;
 using InnoShop.UserService.Container;
-using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.WebApi.Middlewares;
 
 namespace InnoShop.UserService.WebApi;
@@ -15,7 +14,6 @@ public class Program
 
         builder.Services.AddControllers();
         builder.Services.AddFluentValidationAutoValidation();
-        builder.Services.AddSignalR();
 
         builder.LoadDomainModule();
         builder.LoadApplicationModule();
@@ -41,12 +39,8 @@ public class Program
         var app = builder.Build();
 
         app.Migrate();
-        app.Services.SeedRoles();
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-        app.UseDefaultFiles();
-        app.UseStaticFiles();
 
         if (app.Environment.IsDevelopment())
         {
@@ -59,8 +53,6 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
-        app.MapFallbackToFile("/index.html");
 
         app.Run();
     }

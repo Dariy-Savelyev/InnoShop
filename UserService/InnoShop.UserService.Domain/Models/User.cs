@@ -1,12 +1,11 @@
 ﻿using InnoShop.UserService.Domain.Models.Base;
-using Microsoft.AspNetCore.Identity;
 
 namespace InnoShop.UserService.Domain.Models;
 
-public class User : IdentityUser, IBaseDomainModel<string>
+public class User : BaseEntity
 {
-    public ICollection<Chat> CreatedChats { get; set; } = [];
-    public ICollection<Chat> Chats { get; set; } = [];
-    public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
-    public ICollection<Message> Messages { get; set; } = [];
+    public string UserName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
 }

@@ -12,8 +12,8 @@ public sealed class ApplicationContext : DbContext
 
     public DbSet<Product> Products { get; set; } = null!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
     }
 }

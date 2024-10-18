@@ -36,7 +36,7 @@ public static class ApplicationModule
 
         builder.Services.AddValidatorsFromAssemblyContaining<LoginValidator>();
 
-        var builder1 = builder.Services.AddIdentityCore<User>(options =>
+        /*var builder1 = builder.Services.AddIdentityCore<User>(options =>
         {
             options.Lockout.AllowedForNewUsers = true;
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
@@ -59,9 +59,9 @@ public static class ApplicationModule
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
             options.Password.RequiredUniqueChars = 0;
-        });
+        });*/
 
-        var jwtTokenKey = builder.Configuration[ConfigurationConstants.JwtTokenKey];
+        /*var jwtTokenKey = builder.Configuration[ConfigurationConstants.JwtTokenKey];
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -94,13 +94,13 @@ public static class ApplicationModule
                         return Task.CompletedTask;
                     }
                 };
-            });
+            });*/
 
         builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "ChatBot API",
+                Title = "User API",
                 Version = "v1"
             });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

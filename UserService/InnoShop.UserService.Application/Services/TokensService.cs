@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace InnoShop.UserService.Application.Services;
 
-public class TokensService(
+/*public class TokensService(
     IRefreshTokenRepository refreshTokenRepository,
     UserManager<User> userManager,
     TokenValidationParameters tokenValidationParameters,
@@ -64,4 +64,4 @@ public class TokensService(
     {
         await refreshTokenRepository.RevokeAsync(userId);
     }
-}
+}*/
