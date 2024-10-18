@@ -34,7 +34,7 @@ public static class ApplicationModule
 
         builder.Services.AddAutoMapper(typeof(UserProfile));
 
-        builder.Services.AddValidatorsFromAssemblyContaining<LoginValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<UserLoginValidator>();
 
         /*var builder1 = builder.Services.AddIdentityCore<User>(options =>
         {

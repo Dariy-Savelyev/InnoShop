@@ -9,14 +9,14 @@ public class AccountController(IAccountService service) : BaseController
 {
     [AllowAnonymous]
     [HttpPost]
-    public async Task Registration(RegistrationModel model)
+    public async Task Register(UserRegistrationModel model)
     {
-        await service.RegistrationAsync(model);
+        await service.RegisterAsync(model);
     }
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<string> Login(LoginModel model)
+    public async Task<bool> Login(UserLoginModel model)
     {
         return await service.LoginAsync(model);
     }

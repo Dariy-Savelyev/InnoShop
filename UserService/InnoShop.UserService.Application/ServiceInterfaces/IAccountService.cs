@@ -4,6 +4,6 @@ namespace InnoShop.UserService.Application.ServiceInterfaces;
 
 public interface IAccountService : IBaseService
 {
-    Task RegistrationAsync(RegistrationModel model);
-    Task<string> LoginAsync(LoginModel model);
+    Task RegisterAsync(UserRegistrationModel model);
+    Task<bool> LoginAsync(UserLoginModel model);
 }

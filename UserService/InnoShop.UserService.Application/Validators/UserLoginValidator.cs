@@ -3,9 +3,9 @@ using InnoShop.UserService.Application.Models;
 
 namespace InnoShop.UserService.Application.Validators;
 
-public class LoginValidator : AbstractValidator<LoginModel>
+public class UserLoginValidator : AbstractValidator<UserLoginModel>
 {
-    public LoginValidator()
+    public UserLoginValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty()

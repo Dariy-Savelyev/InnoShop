@@ -4,7 +4,7 @@ using InnoShop.UserService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.UserService.Application.Validators;
 
-public class UserRegistrationValidator : AbstractValidator<RegistrationModel>
+public class UserRegistrationValidator : AbstractValidator<UserRegistrationModel>
 {
     public UserRegistrationValidator(IUserRepository userRepository)
     {

@@ -10,7 +10,7 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<RegistrationModel, User>()
+        CreateMap<UserRegistrationModel, User>()
             .ForMember(
                 dest => dest.PasswordHash,
                 opt => opt
@@ -21,7 +21,7 @@ public class UserProfile : Profile
                     .MapFrom(x => AccountConstants.Role))
             ;
 
-        CreateMap<LoginModel, User>()
+        CreateMap<UserLoginModel, User>()
             .ForMember(
                 dest => dest.PasswordHash,
                 opt => opt.MapFrom(s => PasswordHasher.HashPassword(s.Password)))
