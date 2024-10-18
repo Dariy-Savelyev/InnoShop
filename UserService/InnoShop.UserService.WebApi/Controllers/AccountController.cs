@@ -1,30 +1,38 @@
 ﻿using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
-using InnoShop.UserService.CrossCutting.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoShop.UserService.WebApi.Controllers;
 
 public class AccountController(IAccountService service) : BaseController
 {
-    [AllowAnonymous]
-    [HttpPost]
-    public async Task Registration(RegistrationModel model)
+    [HttpGet]
+    public async Task<IEnumerable<GetAllUserModel>> GetAllUsers()
     {
-        await service.RegistrationAsync(model);
+        return await service.GetAllUsersAsync();
     }
 
-    [AllowAnonymous]
     [HttpPost]
-    public async Task<string> Login(LoginModel model)
+    public async Task Register(UserRegistrationModel model)
+    {
+        await service.RegisterAsync(model);
+    }
+
+    [HttpPost]
+    public async Task<bool> Login(UserLoginModel model)
     {
         return await service.LoginAsync(model);
     }
 
-    [HttpGet]
-    public async Task<string> UserInfo()
+    [HttpPut]
+    public async Task Edit(UserModificationModel model)
     {
-        return await Task.Run(() => User.GetUserId());
+        await service.EditUserAsync(model);
+    }
+
+    [HttpDelete]
+    public async Task Delete(UserDeletionModel model)
+    {
+        await service.DeleteUserAsync(model);
     }
 }

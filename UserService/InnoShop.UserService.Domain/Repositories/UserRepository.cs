@@ -6,6 +6,11 @@ namespace InnoShop.UserService.Domain.Repositories;
 
 public class UserRepository(ApplicationContext context) : BaseRepository<User, int>(context), IUserRepository
 {
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        return await Table.SingleOrDefaultAsync(x => x.Email == email);
+    }
+
     public bool IsUniqueEmail(string email)
     {
         return Table.All(x => x.Email != email);
@@ -14,10 +19,5 @@ public class UserRepository(ApplicationContext context) : BaseRepository<User, i
     public bool IsUniqueName(string userName)
     {
         return Table.All(y => y.UserName != userName);
-    }
-
-    public Task<User?> GetUserByEmailAsync(string email)
-    {
-        return Table.SingleOrDefaultAsync(x => x.Email == email);
     }
 }

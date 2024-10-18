@@ -1,80 +1,107 @@
 ﻿using AutoMapper;
-using InnoShop.UserService.Application.ComponentInterfaces;
 using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
-using InnoShop.UserService.CrossCutting.Constants;
+using InnoShop.UserService.CrossCutting.Exceptions;
 using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.Domain.Models;
-using Microsoft.AspNetCore.Identity;
+using InnoShop.UserService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.UserService.Application.Services;
 
-public class AccountService(IMapper mapper) : IAccountService
+public class AccountService(IUserRepository userRepository, IMapper mapper) : IAccountService
 {
-    public async Task RegistrationAsync(RegistrationModel model)
+    public async Task<IEnumerable<GetAllUserModel>> GetAllUsersAsync()
     {
-        /*var email = model.Email.Trim();
-        var userName = model.UserName.Trim();
-        var user = await userManager.FindByEmailAsync(email);
-        if (user != null)
-        {
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), "The user is already registered with this email.");
-        }
+        var usersDb = await userRepository.GetAllAsync();
 
-        user = await userManager.FindByNameAsync(userName);
-        if (user != null)
-        {
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), "The user is already registered with this UserName.");
-        }
+        var users = mapper.Map<IEnumerable<GetAllUserModel>>(usersDb);
 
-        user = mapper.Map<User>(model);
-
-        var identityResult = await userManager.CreateAsync(user);
-        if (!identityResult.Succeeded)
-        {
-            _ = await userManager.DeleteAsync(user!);
-            var identityResultErrors = string.Join("; ", identityResult.Errors.Select(x => x.Description));
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), identityResultErrors);
-        }
-
-        user = await userManager.FindByEmailAsync(email);
-        identityResult = await userManager.AddPasswordAsync(user!, model.Password);
-        if (!identityResult.Succeeded)
-        {
-            _ = await userManager.DeleteAsync(user!);
-            var identityResultErrors = string.Join("; ", identityResult.Errors.Select(x => x.Description));
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), identityResultErrors);
-        }
-
-        await userManager.UpdateSecurityStampAsync(user!);*/
+        return users;
     }
 
-    public Task<string> LoginAsync(LoginModel model)
+    public async Task RegisterAsync(UserRegistrationModel model)
     {
-        throw new NotImplementedException();
+        var user = mapper.Map<User>(model);
+
+        await userRepository.AddAsync(user);
     }
 
-    /*public async Task<string> LoginAsync(LoginModel model)
+    public async Task<bool> LoginAsync(UserLoginModel model)
     {
-        /*var email = model.Email.Trim();
-        var user = await userManager.FindByEmailAsync(email) ?? await userManager.FindByNameAsync(email);
+        var user = await userRepository.GetUserByEmailAsync(model.Email);
 
-        if (user == null)
+        var passwordHash = PasswordHasher.HashPassword(model.Password);
+
+        return user != null && passwordHash == user.PasswordHash;
+    }
+
+    public async Task EditUserAsync(UserModificationModel model)
+    {
+        var userDb = await userRepository.GetByIdAsync(model.Id);
+
+        if (userDb == null)
         {
-            throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
+            throw ExceptionHelper.GetNotFoundException("User not found.");
         }
 
-        var signInResult = await signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: true);
-        if (signInResult.Succeeded)
+        userDb.UserName = model.UserName;
+
+        userDb.Email = model.Email;
+
+        await userRepository.ModifyAsync(userDb);
+    }
+
+    public async Task DeleteUserAsync(UserDeletionModel model)
+    {
+        var userDb = await userRepository.GetByIdAsync(model.Id);
+
+        if (userDb == null)
         {
-            return await tokenComponent.RefreshTokenAsync(user);
+            throw ExceptionHelper.GetNotFoundException("User not found.");
         }
 
-        if (signInResult.IsLockedOut)
-        {
-            throw ExceptionHelper.GetForbiddenException("Your account has been locked for 20 minutes");
-        }
+        await userRepository.DeleteAsync(userDb);
+    }
 
-        throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
-    }*/
+    /*
+     public async Task<RefreshTokenModel> LoginAsync(LoginModel model)
+       {
+       var user = await userManager.FindByEmailAsync(model.Email) ?? await FindByEmailAsync(model.Email);
+       var signInResult = await signInManager.CheckPasswordSignInAsync(user!, model.Password, lockoutOnFailure: true);
+       if (signInResult.Succeeded)
+       {
+       return await tokenComponent.RefreshTokenAsync(user!);
+       }
+       if (signInResult.IsLockedOut)
+       {
+       throw ExceptionHelper.GetForbiddenException("Your account has been locked for 20 minutes");
+       }
+       throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
+       }
+       private async Task<User?> FindByEmailAsync(string email)
+       {
+       return await userManager.Users.IgnoreQueryFilters()
+       .Where(x => x.NormalizedEmail == userManager.NormalizeEmail(email))
+       .SingleOrDefaultAsync();
+       }
+       public async Task<RefreshTokenModel> LoginAsync(LoginModel model)
+       {
+       var email = model.Email.Trim();
+       var user = await userManager.FindByEmailAsync(email) ?? await userManager.FindByNameAsync(email);
+       if (user == null)
+       {
+       throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
+       }
+       var signInResult = await signInManager.CheckPasswordSignInAsync(user!, model.Password, lockoutOnFailure: true);
+       if (signInResult.Succeeded)
+       {
+       return await tokenComponent.RefreshTokenAsync(user!);
+       }
+       if (signInResult.IsLockedOut)
+       {
+       throw ExceptionHelper.GetForbiddenException("Your account has been locked for 20 minutes");
+       }
+       throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
+       }
+     */
 }

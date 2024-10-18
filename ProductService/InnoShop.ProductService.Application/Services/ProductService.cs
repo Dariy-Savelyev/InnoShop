@@ -2,6 +2,7 @@
 using InnoShop.ProductService.Application.Models;
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.CrossCutting.Enums;
+using InnoShop.ProductService.CrossCutting.Extensions;
 using InnoShop.ProductService.Domain.Models;
 using InnoShop.ProductService.Domain.RepositoryInterfaces;
 
@@ -18,29 +19,29 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         return products;
     }
 
-    public async Task<SearchProductModel> SearchProductByNameAsync(string productName)
+    public async Task<ProductSearchModel> SearchProductByNameAsync(string productName)
     {
         var productDb = await productRepository.SearchProductByNameAsync(productName);
 
-        var product = mapper.Map<SearchProductModel>(productDb);
+        var product = mapper.Map<ProductSearchModel>(productDb);
 
         return product;
     }
 
-    public async Task<IEnumerable<SearchProductModel>> SearchProductsBySubstringAsync(string productNameSubstring)
+    public async Task<IEnumerable<ProductSearchModel>> SearchProductsBySubstringAsync(string productNameSubstring)
     {
         var productsDb = await productRepository.SearchProductsBySubstringAsync(productNameSubstring);
 
-        var products = mapper.Map<IEnumerable<SearchProductModel>>(productsDb);
+        var products = mapper.Map<IEnumerable<ProductSearchModel>>(productsDb);
 
         return products;
     }
 
-    public async Task<IEnumerable<SortedProductModel>> SortProductsByFieldAsync(SortFieldEnum sortField, SortOrderEnum sortOrder)
+    public async Task<IEnumerable<ProductSortingModel>> SortProductsByFieldAsync(SortFieldEnum sortField, SortOrderEnum sortOrder)
     {
         var productsDb = await productRepository.GetAllAsync();
 
-        var products = mapper.Map<IEnumerable<SortedProductModel>>(productsDb);
+        var products = mapper.Map<IEnumerable<ProductSortingModel>>(productsDb);
 
         return sortField switch
         {
@@ -54,24 +55,42 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         };
     }
 
-    public async Task CreateProductAsync(CreationProductModel model)
+    public async Task CreateProductAsync(ProductCreationModel model)
     {
         var product = mapper.Map<Product>(model);
 
         await productRepository.AddAsync(product);
     }
 
-    public async Task EditProductAsync(ModificationProductModel model)
+    public async Task EditProductAsync(ProductModificationModel model)
     {
-        var product = mapper.Map<Product>(model);
+        var productDb = await productRepository.GetByIdAsync(model.Id);
 
-        await productRepository.ModifyAsync(product);
+        if (productDb == null)
+        {
+            throw ExceptionHelper.GetNotFoundException("Product not found.");
+        }
+
+        productDb.Name = model.Name;
+
+        productDb.Description = model.Description;
+
+        productDb.Price = model.Price;
+
+        productDb.IsAvailable = model.IsAvailable;
+
+        await productRepository.ModifyAsync(productDb);
     }
 
-    public async Task DeleteProductAsync(DeletionProductModel model)
+    public async Task DeleteProductAsync(ProductDeletionModel model)
     {
-        var product = mapper.Map<Product>(model);
+        var productDb = await productRepository.GetByIdAsync(model.Id);
 
-        await productRepository.DeleteAsync(product!);
+        if (productDb == null)
+        {
+            throw ExceptionHelper.GetNotFoundException("Product not found.");
+        }
+
+        await productRepository.DeleteAsync(productDb);
     }
 }

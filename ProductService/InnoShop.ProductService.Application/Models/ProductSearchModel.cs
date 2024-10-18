@@ -1,6 +1,6 @@
 ﻿namespace InnoShop.ProductService.Application.Models;
 
-public class SortedProductModel
+public class ProductSearchModel
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

@@ -4,25 +4,31 @@ using InnoShop.UserService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.UserService.Application.Validators;
 
-public class RegistrationValidator : AbstractValidator<RegistrationModel>
+public class UserRegistrationValidator : AbstractValidator<UserRegistrationModel>
 {
-    public RegistrationValidator(IUserRepository userRepository)
+    public UserRegistrationValidator(IUserRepository userRepository)
     {
         RuleFor(x => x.UserName)
             .NotEmpty()
             .NotNull()
+            .MaximumLength(255)
             .Must(userRepository.IsUniqueName)
-            .WithMessage("This name is taken. Please, enter a new name.");
+            .WithMessage("This name is taken.");
 
         RuleFor(x => x.Email)
             .NotEmpty()
             .NotNull()
+            .MaximumLength(255)
             .EmailAddress()
             .Must(userRepository.IsUniqueEmail)
-            .WithMessage("This email is taken. Please, enter a new email.");
+            .WithMessage("This email is already registered.");
 
         RuleFor(x => x.Password)
+            .NotEmpty()
+            .NotNull()
+            .MaximumLength(255)
+            .MinimumLength(8)
             .Equal(x => x.ConfirmPassword)
-            .WithMessage("Passwords aren't matching. Please, reenter password.");
+            .WithMessage("Passwords aren't matching.");
     }
 }

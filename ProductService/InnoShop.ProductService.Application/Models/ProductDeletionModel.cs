@@ -1,6 +1,6 @@
 ﻿namespace InnoShop.ProductService.Application.Models;
 
-public class DeletionProductModel
+public class ProductDeletionModel
 {
     public int Id { get; set; }
 }

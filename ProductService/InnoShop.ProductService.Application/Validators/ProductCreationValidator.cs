@@ -4,7 +4,7 @@ using InnoShop.ProductService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.ProductService.Application.Validators;
 
-public class ProductCreationValidator : AbstractValidator<CreationProductModel>
+public class ProductCreationValidator : AbstractValidator<ProductCreationModel>
 {
     public ProductCreationValidator(IProductRepository productRepository)
     {

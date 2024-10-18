@@ -10,19 +10,13 @@ public class ProductProfile : Profile
     {
         CreateMap<Product, GetAllProductModel>();
 
-        CreateMap<DeletionProductModel, Product>();
+        CreateMap<ProductDeletionModel, Product>();
 
-        CreateMap<Product, SearchProductModel>();
+        CreateMap<Product, ProductSearchModel>();
 
-        CreateMap<Product, SortedProductModel>();
+        CreateMap<Product, ProductSortingModel>();
 
-        CreateMap<CreationProductModel, Product>()
-            .ForMember(
-                dest => dest.CreationDate,
-                opt => opt.MapFrom(x => DateTime.UtcNow))
-            ;
-
-        CreateMap<ModificationProductModel, Product>()
+        CreateMap<ProductCreationModel, Product>()
             .ForMember(
                 dest => dest.CreationDate,
                 opt => opt.MapFrom(x => DateTime.UtcNow))
