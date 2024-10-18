@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
-using InnoShop.UserService.CrossCutting.Exceptions;
 using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.Domain.Models;
 using InnoShop.UserService.Domain.RepositoryInterfaces;
