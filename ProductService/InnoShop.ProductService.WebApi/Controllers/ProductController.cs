@@ -14,19 +14,19 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpGet]
-    public async Task<SearchProductModel> SearchProductByName(string productName)
+    public async Task<ProductSearchModel> SearchProductByName(string productName)
     {
         return await service.SearchProductByNameAsync(productName);
     }
 
     [HttpGet]
-    public async Task<IEnumerable<SearchProductModel>> SearchProductsBySubstring(string productNameSubstring)
+    public async Task<IEnumerable<ProductSearchModel>> SearchProductsBySubstring(string productNameSubstring)
     {
         return await service.SearchProductsBySubstringAsync(productNameSubstring);
     }
 
     [HttpGet]
-    public async Task<IEnumerable<SortedProductModel>> SortProductsByField(
+    public async Task<IEnumerable<ProductSortingModel>> SortProductsByField(
         SortFieldEnum sortField = SortFieldEnum.Name,
         SortOrderEnum sortOrder = SortOrderEnum.Ascending)
     {
@@ -34,19 +34,19 @@ public class ProductController(IProductService service) : BaseController
     }
 
     [HttpPost]
-    public async Task Create(CreationProductModel model)
+    public async Task Create(ProductCreationModel model)
     {
         await service.CreateProductAsync(model);
     }
 
     [HttpPut]
-    public async Task Edit(ModificationProductModel model)
+    public async Task Edit(ProductModificationModel model)
     {
         await service.EditProductAsync(model);
     }
 
     [HttpDelete]
-    public async Task Delete(DeletionProductModel model)
+    public async Task Delete(ProductDeletionModel model)
     {
         await service.DeleteProductAsync(model);
     }

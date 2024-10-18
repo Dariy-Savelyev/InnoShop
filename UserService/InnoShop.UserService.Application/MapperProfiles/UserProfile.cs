@@ -10,6 +10,10 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
+        CreateMap<User, GetAllUserModel>();
+
+        CreateMap<UserDeletionModel, User>();
+
         CreateMap<UserRegistrationModel, User>()
             .ForMember(
                 dest => dest.PasswordHash,

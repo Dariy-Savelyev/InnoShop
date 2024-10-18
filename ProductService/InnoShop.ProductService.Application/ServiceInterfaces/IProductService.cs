@@ -7,15 +7,15 @@ public interface IProductService : IBaseService
 {
     Task<IEnumerable<GetAllProductModel>> GetAllProductsAsync();
 
-    Task<SearchProductModel> SearchProductByNameAsync(string productName);
+    Task<ProductSearchModel> SearchProductByNameAsync(string productName);
 
-    Task<IEnumerable<SearchProductModel>> SearchProductsBySubstringAsync(string productNameSubstring);
+    Task<IEnumerable<ProductSearchModel>> SearchProductsBySubstringAsync(string productNameSubstring);
 
-    Task<IEnumerable<SortedProductModel>> SortProductsByFieldAsync(SortFieldEnum sortField, SortOrderEnum sortOrder);
+    Task<IEnumerable<ProductSortingModel>> SortProductsByFieldAsync(SortFieldEnum sortField, SortOrderEnum sortOrder);
 
-    Task CreateProductAsync(CreationProductModel model);
+    Task CreateProductAsync(ProductCreationModel model);
 
-    Task EditProductAsync(ModificationProductModel model);
+    Task EditProductAsync(ProductModificationModel model);
 
-    Task DeleteProductAsync(DeletionProductModel model);
+    Task DeleteProductAsync(ProductDeletionModel model);
 }
