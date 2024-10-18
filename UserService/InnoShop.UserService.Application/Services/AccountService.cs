@@ -1,52 +1,18 @@
 ﻿using AutoMapper;
-using InnoShop.UserService.Application.ComponentInterfaces;
 using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
-using InnoShop.UserService.CrossCutting.Constants;
-using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.Domain.Models;
-using Microsoft.AspNetCore.Identity;
+using InnoShop.UserService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.UserService.Application.Services;
 
-public class AccountService(IMapper mapper) : IAccountService
+public class AccountService(IUserRepository userRepository, IMapper mapper) : IAccountService
 {
     public async Task RegistrationAsync(RegistrationModel model)
     {
-        /*var email = model.Email.Trim();
-        var userName = model.UserName.Trim();
-        var user = await userManager.FindByEmailAsync(email);
-        if (user != null)
-        {
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), "The user is already registered with this email.");
-        }
+        var user = mapper.Map<User>(model);
 
-        user = await userManager.FindByNameAsync(userName);
-        if (user != null)
-        {
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), "The user is already registered with this UserName.");
-        }
-
-        user = mapper.Map<User>(model);
-
-        var identityResult = await userManager.CreateAsync(user);
-        if (!identityResult.Succeeded)
-        {
-            _ = await userManager.DeleteAsync(user!);
-            var identityResultErrors = string.Join("; ", identityResult.Errors.Select(x => x.Description));
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), identityResultErrors);
-        }
-
-        user = await userManager.FindByEmailAsync(email);
-        identityResult = await userManager.AddPasswordAsync(user!, model.Password);
-        if (!identityResult.Succeeded)
-        {
-            _ = await userManager.DeleteAsync(user!);
-            var identityResultErrors = string.Join("; ", identityResult.Errors.Select(x => x.Description));
-            ExceptionHelper.ThrowArgumentException(nameof(model.Email), identityResultErrors);
-        }
-
-        await userManager.UpdateSecurityStampAsync(user!);*/
+        await userRepository.AddAsync(user);
     }
 
     public Task<string> LoginAsync(LoginModel model)
