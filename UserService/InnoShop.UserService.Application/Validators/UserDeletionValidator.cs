@@ -9,7 +9,6 @@ public class UserDeletionValidator : AbstractValidator<UserDeletionModel>
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .NotNull()
-            .GreaterThan(0);
+            .NotNull();
     }
 }

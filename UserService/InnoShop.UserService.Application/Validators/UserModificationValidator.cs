@@ -10,8 +10,7 @@ public class UserModificationValidator : AbstractValidator<UserModificationModel
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .NotNull()
-            .GreaterThan(0);
+            .NotNull();
 
         RuleFor(x => x.UserName)
             .NotEmpty()

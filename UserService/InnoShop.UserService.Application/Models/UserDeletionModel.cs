@@ -2,5 +2,5 @@
 
 public class UserDeletionModel
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 }

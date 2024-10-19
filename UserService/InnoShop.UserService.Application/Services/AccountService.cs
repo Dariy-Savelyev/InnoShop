@@ -47,10 +47,10 @@ public class AccountService(IUserRepository userRepository, IMapper mapper, ICon
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new(ClaimTypes.Name, user!.Id.ToString()),
+                new(ClaimTypes.Name, user!.Id),
                 new(ClaimTypes.Role, user.Role)
             }),
-            Expires = DateTime.UtcNow.AddDays(10),
+            Expires = DateTime.UtcNow.AddDays(double.Parse(configuration["Jwt:TokenExpirationDays"]!)),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Issuer = configuration["Jwt:Issuer"],
             Audience = configuration["Jwt:Audience"]
