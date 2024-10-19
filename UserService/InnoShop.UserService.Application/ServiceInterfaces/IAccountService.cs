@@ -12,5 +12,5 @@ public interface IAccountService : IBaseService
 
     Task DeleteUserAsync(UserDeletionModel model);
 
-    Task<bool> LoginAsync(UserLoginModel model);
+    Task<string> LoginAsync(UserLoginModel model);
 }

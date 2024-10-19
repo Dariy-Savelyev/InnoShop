@@ -4,10 +4,15 @@ using InnoShop.UserService.Application.ServiceInterfaces;
 using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.Domain.Models;
 using InnoShop.UserService.Domain.RepositoryInterfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace InnoShop.UserService.Application.Services;
 
-public class AccountService(IUserRepository userRepository, IMapper mapper) : IAccountService
+public class AccountService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration) : IAccountService
 {
     public async Task<IEnumerable<GetAllUserModel>> GetAllUsersAsync()
     {
@@ -25,13 +30,35 @@ public class AccountService(IUserRepository userRepository, IMapper mapper) : IA
         await userRepository.AddAsync(user);
     }
 
-    public async Task<bool> LoginAsync(UserLoginModel model)
+    public async Task<string> LoginAsync(UserLoginModel model)
     {
         var user = await userRepository.GetUserByEmailAsync(model.Email);
-
         var passwordHash = PasswordHasher.HashPassword(model.Password);
 
-        return user != null && passwordHash == user.PasswordHash;
+        if (user == null || passwordHash != user.PasswordHash)
+        {
+            ExceptionHelper.ThrowUnauthorizedException("Incorrect credentials.");
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new(ClaimTypes.Name, user!.Id.ToString()),
+                new(ClaimTypes.Role, user.Role)
+            }),
+            Expires = DateTime.UtcNow.AddDays(10),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Issuer = configuration["Jwt:Issuer"],
+            Audience = configuration["Jwt:Audience"]
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
     }
 
     public async Task EditUserAsync(UserModificationModel model)
@@ -61,46 +88,4 @@ public class AccountService(IUserRepository userRepository, IMapper mapper) : IA
 
         await userRepository.DeleteAsync(userDb);
     }
-
-    /*
-     public async Task<RefreshTokenModel> LoginAsync(LoginModel model)
-       {
-       var user = await userManager.FindByEmailAsync(model.Email) ?? await FindByEmailAsync(model.Email);
-       var signInResult = await signInManager.CheckPasswordSignInAsync(user!, model.Password, lockoutOnFailure: true);
-       if (signInResult.Succeeded)
-       {
-       return await tokenComponent.RefreshTokenAsync(user!);
-       }
-       if (signInResult.IsLockedOut)
-       {
-       throw ExceptionHelper.GetForbiddenException("Your account has been locked for 20 minutes");
-       }
-       throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
-       }
-       private async Task<User?> FindByEmailAsync(string email)
-       {
-       return await userManager.Users.IgnoreQueryFilters()
-       .Where(x => x.NormalizedEmail == userManager.NormalizeEmail(email))
-       .SingleOrDefaultAsync();
-       }
-       public async Task<RefreshTokenModel> LoginAsync(LoginModel model)
-       {
-       var email = model.Email.Trim();
-       var user = await userManager.FindByEmailAsync(email) ?? await userManager.FindByNameAsync(email);
-       if (user == null)
-       {
-       throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
-       }
-       var signInResult = await signInManager.CheckPasswordSignInAsync(user!, model.Password, lockoutOnFailure: true);
-       if (signInResult.Succeeded)
-       {
-       return await tokenComponent.RefreshTokenAsync(user!);
-       }
-       if (signInResult.IsLockedOut)
-       {
-       throw ExceptionHelper.GetForbiddenException("Your account has been locked for 20 minutes");
-       }
-       throw ExceptionHelper.GetArgumentException(nameof(LoginModel), "Incorrect credentials");
-       }
-     */
 }
