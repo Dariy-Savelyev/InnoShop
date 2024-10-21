@@ -1,5 +1,4 @@
 ﻿using InnoShop.UserService.Application.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace InnoShop.UserService.Application.ServiceInterfaces;
 
