@@ -13,11 +13,11 @@ public class AccountController(IAccountService service) : BaseController
         return await service.GetAllUsersAsync();
     }
 
-    [HttpGet]
+    /*[HttpGet]
     public async Task ConfirmEmail(string token)
     {
         await service.ConfirmEmailAsync(token);
-    }
+    }*/
 
     [AllowAnonymous]
     [HttpPost]
