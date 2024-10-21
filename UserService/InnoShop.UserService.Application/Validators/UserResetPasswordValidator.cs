@@ -1,27 +1,17 @@
 ﻿using FluentValidation;
 using InnoShop.UserService.Application.Models;
-using InnoShop.UserService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.UserService.Application.Validators;
 
-public class UserRegistrationValidator : AbstractValidator<UserRegistrationModel>
+public class UserResetPasswordValidator : AbstractValidator<PasswordResetModel>
 {
-    public UserRegistrationValidator(IUserRepository userRepository)
+    public UserResetPasswordValidator()
     {
-        RuleFor(x => x.UserName)
+        RuleFor(x => x.PasswordResetCodeToken)
             .NotEmpty()
             .NotNull()
-            .MaximumLength(255)
-            .Must(userRepository.IsUniqueName)
-            .WithMessage("This name is taken.");
-
-        RuleFor(x => x.Email)
-            .NotEmpty()
-            .NotNull()
-            .MaximumLength(255)
-            .EmailAddress()
-            .Must(userRepository.IsUniqueEmail)
-            .WithMessage("This email is already registered.");
+            .MaximumLength(8)
+            .MinimumLength(8);
 
         RuleFor(x => x.Password)
             .NotEmpty()

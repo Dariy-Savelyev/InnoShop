@@ -6,12 +6,12 @@ using SendGrid.Helpers.Mail;
 
 namespace InnoShop.UserService.Application.Components;
 
-public class EmailConfirmationComponent(IConfiguration configuration) : IEmailConfirmationComponent
+public class EmailComponent(IConfiguration configuration) : IEmailComponent
 {
-    public async Task SendEmailConfirmationLinkAsync(EmailConfirmationModel model)
+    public async Task SendEmailAsync(EmailModel model)
     {
-        var client = new SendGridClient(configuration["EmailConfirmationLink:EmailApiKey"]);
-        var from = new EmailAddress(configuration["EmailConfirmationLink:Email"], configuration["EmailConfirmationLink:Name"]);
+        var client = new SendGridClient(configuration["Email:EmailApiKey"]);
+        var from = new EmailAddress(configuration["Email:BaseEmail"], configuration["Email:Name"]);
         var toAddress = new EmailAddress(model.ToAddress);
 
         var message = MailHelper.CreateSingleEmail(from, toAddress, model.Subject, null, model.Body);

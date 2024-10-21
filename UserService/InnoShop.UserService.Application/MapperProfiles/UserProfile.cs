@@ -18,7 +18,7 @@ public class UserProfile : Profile
             .ForMember(
                 dest => dest.PasswordHash,
                 opt => opt
-                    .MapFrom(s => PasswordHasher.HashPassword(s.Password)))
+                    .MapFrom(s => PasswordHelper.HashPassword(s.Password)))
             .ForMember(
                 dest => dest.Role,
                 opt => opt
@@ -28,7 +28,7 @@ public class UserProfile : Profile
         CreateMap<UserLoginModel, User>()
             .ForMember(
                 dest => dest.PasswordHash,
-                opt => opt.MapFrom(s => PasswordHasher.HashPassword(s.Password)))
+                opt => opt.MapFrom(s => PasswordHelper.HashPassword(s.Password)))
             ;
     }
 }
