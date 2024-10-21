@@ -10,13 +10,13 @@ public class EmailConfirmationComponent(IConfiguration configuration) : IEmailCo
 {
     public async Task SendEmailConfirmationLinkAsync(EmailConfirmationModel model)
     {
-        /*var client = new SendGridClient(configuration["EmailConfirmationLink:EmailApiKey"]);
+        var client = new SendGridClient(configuration["EmailConfirmationLink:EmailApiKey"]);
         var from = new EmailAddress(configuration["EmailConfirmationLink:Email"], configuration["EmailConfirmationLink:Name"]);
         var toAddress = new EmailAddress(model.ToAddress);
 
         var message = MailHelper.CreateSingleEmail(from, toAddress, model.Subject, null, model.Body);
         message.Subject = model.Subject;
 
-        await client.SendEmailAsync(message);*/
+        await client.SendEmailAsync(message);
     }
 }

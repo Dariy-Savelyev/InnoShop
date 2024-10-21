@@ -33,7 +33,7 @@ public class AccountService(
 
         await userRepository.AddAsync(user);
 
-        //await SendEmailConfirmationAsync(user.Email, user.EmailConfirmationToken);
+        await SendEmailConfirmationAsync(user.Email, user.EmailConfirmationToken);
     }
 
     public async Task<string> LoginAsync(UserLoginModel model)
@@ -96,7 +96,7 @@ public class AccountService(
         await userRepository.ModifyAsync(user);
     }
 
-    /*private async Task SendEmailConfirmationAsync(string email, string token)
+    private async Task SendEmailConfirmationAsync(string email, string token)
     {
         var baseUrl = configuration["EmailConfirmationLink:BaseUrl"];
         var confirmationLink = $"{baseUrl}{token}";
@@ -109,5 +109,5 @@ public class AccountService(
         };
 
         await emailConfirmationComponent.SendEmailConfirmationLinkAsync(model);
-    }*/
+    }
 }
