@@ -10,7 +10,7 @@ public class EmailConfirmationComponent(IConfiguration configuration) : IEmailCo
 {
     public async Task SendEmailConfirmationLinkAsync(EmailConfirmationModel model)
     {
-        var client = new SendGridClient(Environment.GetEnvironmentVariable("EmailApiKey"));
+        var client = new SendGridClient(configuration["EmailConfirmationLink:EmailApiKey"]);
         var from = new EmailAddress(configuration["EmailConfirmationLink:Email"], configuration["EmailConfirmationLink:Name"]);
         var toAddress = new EmailAddress(model.ToAddress);
 
