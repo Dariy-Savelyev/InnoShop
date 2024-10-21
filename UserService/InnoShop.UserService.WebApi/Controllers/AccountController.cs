@@ -1,6 +1,5 @@
 ﻿using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
-using InnoShop.UserService.CrossCutting.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +11,12 @@ public class AccountController(IAccountService service) : BaseController
     public async Task<IEnumerable<GetAllUserModel>> GetAllUsers()
     {
         return await service.GetAllUsersAsync();
+    }
+
+    [HttpGet]
+    public async Task ConfirmEmail(string token)
+    {
+        await service.ConfirmEmailAsync(token);
     }
 
     [AllowAnonymous]

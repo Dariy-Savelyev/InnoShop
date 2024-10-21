@@ -1,4 +1,5 @@
 ﻿using InnoShop.UserService.Application.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InnoShop.UserService.Application.ServiceInterfaces;
 
@@ -13,4 +14,6 @@ public interface IAccountService : IBaseService
     Task DeleteUserAsync(UserDeletionModel model);
 
     Task<string> LoginAsync(UserLoginModel model);
+
+    Task ConfirmEmailAsync(string token);
 }

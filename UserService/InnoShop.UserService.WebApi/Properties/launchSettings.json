@@ -17,7 +17,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings_App": "Data Source=.;Initial Catalog=UserDb;Integrated Security=True;TrustServerCertificate=True"
+        "ConnectionStrings_App": "Data Source=.;Initial Catalog=UserDb;Integrated Security=True;TrustServerCertificate=True",
+        "EmailApiKey": "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"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7286;http://localhost:5225"

@@ -20,6 +20,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(p => p.PasswordHash).HasMaxLength(255);
 
+        builder.Property(p => p.EmailConfirmationToken).HasMaxLength(36);
+
+        builder.Property(p => p.IsEmailConfirmed);
+
         builder.HasIndex(x => new { x.UserName }).IsUnique();
 
         builder.HasIndex(x => new { x.Email }).IsUnique();
