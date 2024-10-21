@@ -16,6 +16,11 @@ public class UserRepository(ApplicationContext context) : BaseRepository<User, s
         return await Table.SingleOrDefaultAsync(x => x.EmailConfirmationToken == token);
     }
 
+    public async Task<User?> GetUserByVerificationCodeAsync(string verificationCode)
+    {
+        return await Table.SingleOrDefaultAsync(x => x.PasswordResetCodeToken == verificationCode);
+    }
+
     public bool IsUniqueEmail(string email)
     {
         return Table.All(x => x.Email != email);

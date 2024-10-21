@@ -21,6 +21,27 @@ public class AccountController(IAccountService service) : BaseController
 
     [AllowAnonymous]
     [HttpPost]
+    public async Task SendEmailRecoveryPassword(string email)
+    {
+        await service.SendEmailRecoveryPasswordAsync(email);
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task VerifyPasswordRecoveryCode(string verificationCode)
+    {
+        await service.VerifyPasswordRecoveryCodeAsync(verificationCode);
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task ResetPassword(PasswordResetModel model)
+    {
+        await service.ResetPasswordAsync(model);
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
     public async Task Register(UserRegistrationModel model)
     {
         await service.RegisterAsync(model);

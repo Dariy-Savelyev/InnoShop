@@ -16,4 +16,10 @@ public interface IAccountService : IBaseService
     Task<string> LoginAsync(UserLoginModel model);
 
     Task ConfirmEmailAsync(string token);
+
+    Task SendEmailRecoveryPasswordAsync(string email);
+
+    Task VerifyPasswordRecoveryCodeAsync(string verificationCode);
+
+    Task ResetPasswordAsync(PasswordResetModel model);
 }

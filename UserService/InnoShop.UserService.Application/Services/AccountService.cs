@@ -5,7 +5,6 @@ using InnoShop.UserService.Application.ServiceInterfaces;
 using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.Domain.Models;
 using InnoShop.UserService.Domain.RepositoryInterfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace InnoShop.UserService.Application.Services;
@@ -15,7 +14,7 @@ public class AccountService(
     IMapper mapper,
     ITokenComponent tokenComponent,
     IConfiguration configuration,
-    IEmailConfirmationComponent emailConfirmationComponent) : IAccountService
+    IEmailComponent emailComponent) : IAccountService
 {
     public async Task<IEnumerable<GetAllUserModel>> GetAllUsersAsync()
     {
@@ -33,17 +32,24 @@ public class AccountService(
 
         await userRepository.AddAsync(user);
 
-        await SendEmailConfirmationAsync(user.Email, user.EmailConfirmationToken);
+        var emailModel = new EmailModel
+        {
+            ToAddress = user.Email,
+            Subject = configuration["Email:EmailConfirmationSubject"]!,
+            Body = $"{configuration["Email:LinkBodyMessage"]}{configuration["Email:BaseUrl"]}{user.EmailConfirmationToken}"
+        };
+
+        await emailComponent.SendEmailAsync(emailModel);
     }
 
     public async Task<string> LoginAsync(UserLoginModel model)
     {
         var user = await userRepository.GetUserByEmailAsync(model.Email);
-        var passwordHash = PasswordHasher.HashPassword(model.Password);
+        var passwordHash = PasswordHelper.HashPassword(model.Password);
 
         if (user == null || passwordHash != user.PasswordHash)
         {
-            ExceptionHelper.ThrowUnauthorizedException("Incorrect credentials.");
+            ExceptionHelper.ThrowForbiddenException("Incorrect credentials.");
         }
 
         return await tokenComponent.GetAccessTokenAsync(user!);
@@ -96,18 +102,47 @@ public class AccountService(
         await userRepository.ModifyAsync(user);
     }
 
-    private async Task SendEmailConfirmationAsync(string email, string token)
+    public async Task SendEmailRecoveryPasswordAsync(string email)
     {
-        var baseUrl = configuration["EmailConfirmationLink:BaseUrl"];
-        var confirmationLink = $"{baseUrl}{token}";
+        var user = await userRepository.GetUserByEmailAsync(email);
 
-        var model = new EmailConfirmationModel
+        if (user == null)
         {
-            ToAddress = email,
-            Subject = configuration["EmailConfirmationLink:Subject"]!,
-            Body = $"{configuration["EmailConfirmationLink:BodyMessage"]}{confirmationLink}"
+            throw ExceptionHelper.GetNotFoundException("Wrong email.");
+        }
+
+        var recoveryCode = PasswordHelper.GeneratePasswordRecoveryCode();
+
+        user.PasswordResetCodeToken = recoveryCode;
+        await userRepository.ModifyAsync(user);
+
+        var model = new EmailModel
+        {
+            ToAddress = user.Email,
+            Subject = configuration["Email:PasswordRecoverySubject"]!,
+            Body = $"{configuration["Email:PasswordBodyMessage"]}{recoveryCode}"
         };
 
-        await emailConfirmationComponent.SendEmailConfirmationLinkAsync(model);
+        await emailComponent.SendEmailAsync(model);
+    }
+
+    public async Task VerifyPasswordRecoveryCodeAsync(string verificationCode)
+    {
+        var user = await userRepository.GetUserByVerificationCodeAsync(verificationCode);
+
+        if (user == null)
+        {
+            throw ExceptionHelper.GetNotFoundException("Wrong verification code.");
+        }
+    }
+
+    public async Task ResetPasswordAsync(PasswordResetModel model)
+    {
+        var user = await userRepository.GetUserByVerificationCodeAsync(model.PasswordResetCodeToken);
+
+        user!.PasswordHash = PasswordHelper.HashPassword(model.Password);
+        user.PasswordResetCodeToken = string.Empty;
+
+        await userRepository.ModifyAsync(user);
     }
 }

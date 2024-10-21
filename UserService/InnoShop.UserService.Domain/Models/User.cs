@@ -9,5 +9,6 @@ public class User : BaseEntity
     public string Role { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
     public string EmailConfirmationToken { get; set; } = string.Empty;
+    public string PasswordResetCodeToken { get; set; } = string.Empty;
     public bool IsEmailConfirmed { get; set; }
 }
