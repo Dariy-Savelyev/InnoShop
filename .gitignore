@@ -193,6 +193,8 @@ publish/
 # in these scripts will be unencrypted
 PublishScripts/
 
+# NuGet Folder
+.nuget/
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages
