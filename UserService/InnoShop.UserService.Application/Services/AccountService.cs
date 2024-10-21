@@ -1,18 +1,21 @@
 ﻿using AutoMapper;
+using InnoShop.UserService.Application.ComponentInterfaces;
 using InnoShop.UserService.Application.Models;
 using InnoShop.UserService.Application.ServiceInterfaces;
 using InnoShop.UserService.CrossCutting.Extensions;
 using InnoShop.UserService.Domain.Models;
 using InnoShop.UserService.Domain.RepositoryInterfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace InnoShop.UserService.Application.Services;
 
-public class AccountService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration) : IAccountService
+public class AccountService(
+    IUserRepository userRepository,
+    IMapper mapper,
+    ITokenComponent tokenComponent,
+    IConfiguration configuration,
+    IEmailConfirmationComponent emailConfirmationComponent) : IAccountService
 {
     public async Task<IEnumerable<GetAllUserModel>> GetAllUsersAsync()
     {
@@ -26,8 +29,11 @@ public class AccountService(IUserRepository userRepository, IMapper mapper, ICon
     public async Task RegisterAsync(UserRegistrationModel model)
     {
         var user = mapper.Map<User>(model);
+        user.EmailConfirmationToken = Guid.NewGuid().ToString();
 
         await userRepository.AddAsync(user);
+
+        await SendEmailConfirmationAsync(user.Email, user.EmailConfirmationToken);
     }
 
     public async Task<string> LoginAsync(UserLoginModel model)
@@ -40,25 +46,7 @@ public class AccountService(IUserRepository userRepository, IMapper mapper, ICon
             ExceptionHelper.ThrowUnauthorizedException("Incorrect credentials.");
         }
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
-
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new(ClaimTypes.Name, user!.Id),
-                new(ClaimTypes.Role, user.Role)
-            }),
-            Expires = DateTime.UtcNow.AddDays(double.Parse(configuration["Jwt:TokenExpirationDays"]!)),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Issuer = configuration["Jwt:Issuer"],
-            Audience = configuration["Jwt:Audience"]
-        };
-
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-
-        return tokenHandler.WriteToken(token);
+        return await tokenComponent.GetAccessTokenAsync(user!);
     }
 
     public async Task EditUserAsync(UserModificationModel model)
@@ -87,5 +75,39 @@ public class AccountService(IUserRepository userRepository, IMapper mapper, ICon
         }
 
         await userRepository.DeleteAsync(userDb);
+    }
+
+    public async Task ConfirmEmailAsync(string token)
+    {
+        var user = await userRepository.GetUserByEmailConfirmationTokenAsync(token);
+
+        if (user == null)
+        {
+            throw ExceptionHelper.GetNotFoundException("Invalid token.");
+        }
+
+        if (user.IsEmailConfirmed)
+        {
+            throw ExceptionHelper.GetForbiddenException("Email already confirmed.");
+        }
+
+        user.IsEmailConfirmed = true;
+
+        await userRepository.ModifyAsync(user);
+    }
+
+    private async Task SendEmailConfirmationAsync(string email, string token)
+    {
+        var baseUrl = configuration["EmailConfirmationLink:BaseUrl"];
+        var confirmationLink = $"{baseUrl}{token}";
+
+        var model = new EmailConfirmationModel
+        {
+            ToAddress = email,
+            Subject = configuration["EmailConfirmationLink:Subject"]!,
+            Body = $"{configuration["EmailConfirmationLink:BodyMessage"]}{confirmationLink}"
+        };
+
+        await emailConfirmationComponent.SendEmailConfirmationLinkAsync(model);
     }
 }

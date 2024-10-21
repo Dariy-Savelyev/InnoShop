@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "InnoShop.UserService.Application": {
+      "commandName": "Project"
+    }
+  }
+}
