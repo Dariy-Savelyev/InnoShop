@@ -19,5 +19,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.IsAvailable);
 
         builder.Property(p => p.CreationDate);
+
+        builder.Property(p => p.UserId).HasMaxLength(36);
+
+        builder.HasIndex(p => new { p.Name }).IsUnique();
     }
 }

@@ -1,6 +1,6 @@
-﻿using InnoShop.ProductService.Domain.Models.Base;
+﻿using InnoShop.GatewayService.Models.Base;
 
-namespace InnoShop.ProductService.Domain.Models;
+namespace InnoShop.GatewayService.Models;
 
 public class Product : BaseEntity
 {
@@ -10,4 +10,6 @@ public class Product : BaseEntity
     public DateTime CreationDate { get; set; }
     public bool IsAvailable { get; set; }
     public string UserId { get; set; }
+
+    public User User { get; set; }
 }
