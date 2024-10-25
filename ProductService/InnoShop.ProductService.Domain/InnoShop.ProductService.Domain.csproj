@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\InnoShop.GatewayService\InnoShop.GatewayService.csproj" />
     <ProjectReference Include="..\InnoShop.ProductService.CrossCutting\InnoShop.ProductService.CrossCutting.csproj" />
   </ItemGroup>
 

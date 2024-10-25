@@ -1,19 +1,16 @@
 ﻿using FluentValidation;
 using InnoShop.ProductService.Application.Models;
-using InnoShop.ProductService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.ProductService.Application.Validators;
 
 public class ProductCreationValidator : AbstractValidator<ProductCreationModel>
 {
-    public ProductCreationValidator(IProductRepository productRepository)
+    public ProductCreationValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
             .NotNull()
-            .MaximumLength(255)
-            .Must(productRepository.IsUniqueName)
-            .WithMessage("This name is taken. Please, enter a new name.");
+            .MaximumLength(255);
 
         RuleFor(x => x.Description)
             .NotEmpty()

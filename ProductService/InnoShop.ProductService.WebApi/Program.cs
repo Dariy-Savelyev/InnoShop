@@ -50,6 +50,7 @@ public class Program
 
         app.UseCors(PolicyName);
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

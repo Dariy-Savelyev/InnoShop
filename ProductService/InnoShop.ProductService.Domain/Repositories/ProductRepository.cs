@@ -15,9 +15,4 @@ public class ProductRepository(ApplicationContext context) : BaseRepository<Prod
     {
         return await Table.Where(x => x.Name.Contains(productNameSubstring)).ToListAsync();
     }
-
-    public bool IsUniqueName(string productName)
-    {
-        return Table.All(x => x.Name != productName);
-    }
 }

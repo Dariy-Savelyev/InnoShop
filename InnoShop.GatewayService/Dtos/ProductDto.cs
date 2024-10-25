@@ -1,10 +1,10 @@
-﻿namespace InnoShop.ProductService.Application.Models;
+﻿namespace InnoShop.GatewayService.Dtos;
 
-public class GetAllProductModel
+public interface IProductDto
 {
     public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string Name { get; set; }
+    public string Description { get; set; }
     public decimal Price { get; set; }
     public DateTime CreationDate { get; set; }
     public bool IsAvailable { get; set; }

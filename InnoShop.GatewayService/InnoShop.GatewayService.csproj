@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="AspNetCore.Authentication.ApiKey" Version="8.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
@@ -22,8 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ProductService\InnoShop.ProductService.Domain\InnoShop.ProductService.Domain.csproj" />
-      <ProjectReference Include="..\UserService\InnoShop.UserService.Domain\InnoShop.UserService.Domain.csproj" />
+      <ProjectReference Include="..\UserService\InnoShop.UserService.CrossCutting\InnoShop.UserService.CrossCutting.csproj" />
     </ItemGroup>
 
 </Project>
