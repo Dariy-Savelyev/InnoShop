@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  userservice:
+    build:
+      context: .
+      dockerfile: UserService/InnoShop.UserService.WebApi/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ./UserService/InnoShop.UserService.WebApi/appsettings.json:/app/appsettings.json:ro
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__App=Server=db;Database=UserDb;User Id=sa;Password=fresqe123d;TrustServerCertificate=True
+    user: appuser
+    depends_on:
+      - db
+    networks:
+      - innoshop-network
+
+  productservice:
+    build:
+      context: .
+      dockerfile: ProductService/InnoShop.ProductService.WebApi/Dockerfile
+    ports:
+      - "8082:8080"
+      - "8083:8081"
+    volumes:
+      - ./ProductService/InnoShop.ProductService.WebApi/appsettings.json:/app/appsettings.json:ro  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__App=Server=db;Database=ProductDb;User Id=sa;Password=fresqe123d;TrustServerCertificate=True
+    user: appuser
+    depends_on:
+      - db
+    networks:
+      - innoshop-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=fresqe123d
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - innoshop-network
+
+networks:
+  innoshop-network:
+    driver: bridge
+
+volumes:
+  sqldata:
+    driver: local
