@@ -1,16 +1,11 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace InnoShop.UserService.CrossCutting.Extensions;
 
 public static class UserHelper
 {
-    public static string GetUserId(this ClaimsPrincipal user)
+    public static string GetUserId(this HttpRequest request)
     {
-        return user.GetValue(ClaimTypes.Name);
-    }
-
-    private static string GetValue(this ClaimsPrincipal user, string key)
-    {
-        return user.Claims.SingleOrDefault(x => x.Type == key)?.Value ?? string.Empty;
+        return request.Headers["X-User-Id"].FirstOrDefault() ?? string.Empty;
     }
 }

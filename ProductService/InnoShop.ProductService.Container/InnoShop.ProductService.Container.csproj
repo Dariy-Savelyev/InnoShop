@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\InnoShop.GatewayService\InnoShop.GatewayService.csproj" />
     <ProjectReference Include="..\InnoShop.ProductService.Application\InnoShop.ProductService.Application.csproj" />
     <ProjectReference Include="..\InnoShop.ProductService.Domain\InnoShop.ProductService.Domain.csproj" />
   </ItemGroup>

@@ -55,20 +55,26 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         };
     }
 
-    public async Task CreateProductAsync(ProductCreationModel model)
+    public async Task CreateProductAsync(ProductCreationModel model, string userId)
     {
         var product = mapper.Map<Product>(model);
+        product.UserId = userId;
 
         await productRepository.AddAsync(product);
     }
 
-    public async Task EditProductAsync(ProductModificationModel model)
+    public async Task EditProductAsync(ProductModificationModel model, string userId)
     {
         var productDb = await productRepository.GetByIdAsync(model.Id);
 
         if (productDb == null)
         {
             throw ExceptionHelper.GetNotFoundException("Product not found.");
+        }
+
+        if (productDb.UserId != userId)
+        {
+            throw ExceptionHelper.GetForbiddenException("This user can't interact with this product.");
         }
 
         productDb.Name = model.Name;
@@ -82,13 +88,18 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         await productRepository.ModifyAsync(productDb);
     }
 
-    public async Task DeleteProductAsync(ProductDeletionModel model)
+    public async Task DeleteProductAsync(ProductDeletionModel model, string userId)
     {
         var productDb = await productRepository.GetByIdAsync(model.Id);
 
         if (productDb == null)
         {
             throw ExceptionHelper.GetNotFoundException("Product not found.");
+        }
+
+        if (productDb.UserId != userId)
+        {
+            throw ExceptionHelper.GetForbiddenException("This user can't interact with this product.");
         }
 
         await productRepository.DeleteAsync(productDb);

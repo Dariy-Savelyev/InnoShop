@@ -1,6 +1,7 @@
 ﻿using InnoShop.ProductService.Application.Models;
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.CrossCutting.Enums;
+using InnoShop.UserService.CrossCutting.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,18 +42,18 @@ public class ProductController(IProductService service) : BaseController
     [HttpPost]
     public async Task Create(ProductCreationModel model)
     {
-        await service.CreateProductAsync(model);
+        await service.CreateProductAsync(model, Request.GetUserId());
     }
 
     [HttpPut]
     public async Task Edit(ProductModificationModel model)
     {
-        await service.EditProductAsync(model);
+        await service.EditProductAsync(model, Request.GetUserId());
     }
 
     [HttpDelete]
     public async Task Delete(ProductDeletionModel model)
     {
-        await service.DeleteProductAsync(model);
+        await service.DeleteProductAsync(model, Request.GetUserId());
     }
 }

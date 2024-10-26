@@ -11,7 +11,7 @@ public class RequestService(IConfiguration configuration, HttpClient httpClient)
 {
     public async Task SendGatewayRequestAsync<TRequest>(HttpMethod method, string path, TRequest data, ClaimsPrincipal user)
     {
-        var headers = user.Claims.ToDictionary(claim => $"X-User-{claim.Type}", claim => claim.Value);
+        var userId = user.FindFirst(ClaimTypes.Name)?.Value;
 
         var jsonString = JsonSerializer.Serialize(data);
         var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
@@ -24,16 +24,18 @@ public class RequestService(IConfiguration configuration, HttpClient httpClient)
             Content = content
         };
 
-        foreach (var header in headers)
-        {
-            request.Headers.TryAddWithoutValidation(header.Key, header.Value);
-        }
+        request.Headers.TryAddWithoutValidation("X-User-Id", userId);
 
         var response = await httpClient.SendAsync(request);
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             throw ExceptionHelper.GetNotFoundException("Product not found.");
+        }
+
+        if (response.StatusCode == HttpStatusCode.Forbidden)
+        {
+            throw ExceptionHelper.GetForbiddenException("This user can't interact with this product.");
         }
     }
 }
