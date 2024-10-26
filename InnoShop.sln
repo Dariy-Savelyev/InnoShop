@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoShop.ProductService.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoShop.ProductService.Application", "ProductService\InnoShop.ProductService.Application\InnoShop.ProductService.Application.csproj", "{1E9EC8FD-42E7-4C84-A245-936AB475D4C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoShop.GatewayService", "InnoShop.GatewayService\InnoShop.GatewayService.csproj", "{F5A35BD4-EDD9-44B7-8CC7-C875B98F40D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{1E9EC8FD-42E7-4C84-A245-936AB475D4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E9EC8FD-42E7-4C84-A245-936AB475D4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E9EC8FD-42E7-4C84-A245-936AB475D4C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A35BD4-EDD9-44B7-8CC7-C875B98F40D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A35BD4-EDD9-44B7-8CC7-C875B98F40D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A35BD4-EDD9-44B7-8CC7-C875B98F40D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A35BD4-EDD9-44B7-8CC7-C875B98F40D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

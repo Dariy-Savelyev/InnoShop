@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 using InnoShop.ProductService.Application.Models;
-using InnoShop.ProductService.Domain.RepositoryInterfaces;
 
 namespace InnoShop.ProductService.Application.Validators;
 
 public class ProductModificationValidator : AbstractValidator<ProductModificationModel>
 {
-    public ProductModificationValidator(IProductRepository productRepository)
+    public ProductModificationValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty()
@@ -16,9 +15,7 @@ public class ProductModificationValidator : AbstractValidator<ProductModificatio
         RuleFor(x => x.Name)
             .NotEmpty()
             .NotNull()
-            .MaximumLength(255)
-            .Must(productRepository.IsUniqueName)
-            .WithMessage("This name is taken. Please, enter a new name.");
+            .MaximumLength(255);
 
         RuleFor(x => x.Description)
             .NotEmpty()

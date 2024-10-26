@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using InnoShop.GatewayService.Services;
+using InnoShop.ProductService.Application.Validators;
 using InnoShop.UserService.Application.ComponentInterfaces;
 using InnoShop.UserService.Application.MapperProfiles;
 using InnoShop.UserService.Application.ServiceInterfaces;
@@ -30,7 +32,13 @@ public static class ApplicationModule
 
         builder.Services.AddAutoMapper(typeof(UserProfile));
 
-        builder.Services.AddValidatorsFromAssemblyContaining<UserLoginValidator>();
+        builder.Services.AddValidatorsFromAssemblies(new[]
+        {
+            typeof(UserLoginValidator).Assembly,
+            typeof(ProductCreationValidator).Assembly
+        });
+
+        builder.Services.AddHttpClient<RequestService>();
 
         builder.Services.AddSwaggerGen(c =>
         {

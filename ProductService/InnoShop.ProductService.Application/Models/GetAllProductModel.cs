@@ -8,4 +8,5 @@ public class GetAllProductModel
     public decimal Price { get; set; }
     public DateTime CreationDate { get; set; }
     public bool IsAvailable { get; set; }
+    public string UserId { get; set; }
 }
