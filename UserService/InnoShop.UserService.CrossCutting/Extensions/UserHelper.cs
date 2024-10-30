@@ -6,6 +6,6 @@ public static class UserHelper
 {
     public static string GetUserId(this HttpRequest request)
     {
-        return request.Headers["X-User-Id"].FirstOrDefault() ?? string.Empty;
+        return request.Headers["User-Id"].FirstOrDefault() ?? string.Empty;
     }
 }

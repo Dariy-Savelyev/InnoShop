@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>..\..\StyleCop.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,7 +23,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserService\InnoShop.UserService.CrossCutting\InnoShop.UserService.CrossCutting.csproj" />
+      <ProjectReference Include="..\..\ProductService\InnoShop.ProductService.CrossCutting\InnoShop.ProductService.CrossCutting.csproj" />
+      <ProjectReference Include="..\..\UserService\InnoShop.UserService.CrossCutting\InnoShop.UserService.CrossCutting.csproj" />
+      <ProjectReference Include="..\..\UserService\InnoShop.UserService.Domain\InnoShop.UserService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

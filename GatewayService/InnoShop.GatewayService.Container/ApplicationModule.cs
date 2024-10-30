@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
+using InnoShop.GatewayService.Application.ComponentInterfaces;
+using InnoShop.GatewayService.Application.ServiceInterfaces;
 using InnoShop.ProductService.Application.Validators;
-using InnoShop.UserService.Application.ComponentInterfaces;
-using InnoShop.UserService.Application.MapperProfiles;
-using InnoShop.UserService.Application.ServiceInterfaces;
-using InnoShop.UserService.Application.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace InnoShop.UserService.Container;
+namespace InnoShop.GatewayService.Container;
 
 public static class ApplicationModule
 {
@@ -29,21 +27,24 @@ public static class ApplicationModule
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        builder.Services.AddAutoMapper(typeof(UserProfile));
+        builder.Services.AddValidatorsFromAssemblies(new[]
+        {
+            typeof(ProductCreationValidator).Assembly
+        });
 
-        builder.Services.AddValidatorsFromAssemblyContaining<UserLoginValidator>();
+        builder.Services.AddHttpClient();
 
         builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "User API",
+                Title = "Gateway API",
                 Version = "v1"
             });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
-                Description = "Please insert JWT with Bearer into field",
+                Description = "Please insert JWT with Bearer into field.",
                 Name = "Authorization",
                 Scheme = "Bearer",
                 Type = SecuritySchemeType.ApiKey

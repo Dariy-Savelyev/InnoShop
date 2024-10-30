@@ -2,35 +2,30 @@
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.CrossCutting.Enums;
 using InnoShop.UserService.CrossCutting.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoShop.ProductService.WebApi.Controllers;
 
 public class ProductController(IProductService service) : BaseController
 {
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IEnumerable<GetAllProductModel>> GetAllProducts()
     {
         return await service.GetAllProductsAsync();
     }
 
-    [AllowAnonymous]
     [HttpGet]
-    public async Task<ProductSearchModel> SearchProductByName(string productName)
+    public async Task<IEnumerable<ProductSearchModel>> SearchProductsByName(string productName)
     {
-        return await service.SearchProductByNameAsync(productName);
+        return await service.SearchProductsByNameAsync(productName);
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IEnumerable<ProductSearchModel>> SearchProductsBySubstring(string productNameSubstring)
     {
         return await service.SearchProductsBySubstringAsync(productNameSubstring);
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async Task<IEnumerable<ProductSortingModel>> SortProductsByField(
         SortFieldEnum sortField = SortFieldEnum.Name,

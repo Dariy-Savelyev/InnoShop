@@ -19,13 +19,13 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         return products;
     }
 
-    public async Task<ProductSearchModel> SearchProductByNameAsync(string productName)
+    public async Task<IEnumerable<ProductSearchModel>> SearchProductsByNameAsync(string productName)
     {
-        var productDb = await productRepository.SearchProductByNameAsync(productName);
+        var productsDb = await productRepository.SearchProductsByNameAsync(productName);
 
-        var product = mapper.Map<ProductSearchModel>(productDb);
+        var products = mapper.Map<IEnumerable<ProductSearchModel>>(productsDb);
 
-        return product;
+        return products;
     }
 
     public async Task<IEnumerable<ProductSearchModel>> SearchProductsBySubstringAsync(string productNameSubstring)

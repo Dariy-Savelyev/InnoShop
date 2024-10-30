@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,9 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\UserService\InnoShop.UserService.CrossCutting\InnoShop.UserService.CrossCutting.csproj" />
-    <ProjectReference Include="..\InnoShop.ProductService.Application\InnoShop.ProductService.Application.csproj" />
-    <ProjectReference Include="..\InnoShop.ProductService.Container\InnoShop.ProductService.Container.csproj" />
-    <ProjectReference Include="..\InnoShop.ProductService.CrossCutting\InnoShop.ProductService.CrossCutting.csproj" />
+    <ProjectReference Include="..\InnoShop.GatewayService.Container\InnoShop.GatewayService.Container.csproj" />
   </ItemGroup>
 
   </Project>
