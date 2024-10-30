@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using InnoShop.ProductService.Application.Validators;
 using InnoShop.UserService.Application.ComponentInterfaces;
 using InnoShop.UserService.Application.MapperProfiles;
 using InnoShop.UserService.Application.ServiceInterfaces;
