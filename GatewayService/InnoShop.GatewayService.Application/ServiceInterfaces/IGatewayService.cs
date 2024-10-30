@@ -1,8 +1,11 @@
-﻿using System.Security.Claims;
+﻿using InnoShop.ProductService.CrossCutting.Enums;
+using System.Security.Claims;
 
 namespace InnoShop.GatewayService.Application.ServiceInterfaces;
 
 public interface IGatewayService : IBaseService
 {
-    Task SendGatewayRequestAsync<TRequest>(HttpMethod method, string path, TRequest data, ClaimsPrincipal user);
+    Task GetGatewayResponseStatusAsync<T>(HttpMethod method, string path, T data, ClaimsPrincipal user);
+    Task<T> GetGatewayResponseDataAsync<T>(HttpMethod method, string path, string data, string dataName, ClaimsPrincipal user);
+    Task<T> GetGatewayResponseDataAsync<T>(HttpMethod method, string path, SortFieldEnum sortField, SortOrderEnum sortOrder);
 }

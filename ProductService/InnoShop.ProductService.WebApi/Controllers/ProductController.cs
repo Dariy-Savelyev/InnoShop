@@ -18,9 +18,9 @@ public class ProductController(IProductService service) : BaseController
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ProductSearchModel> SearchProductByName(string productName)
+    public async Task<IEnumerable<ProductSearchModel>> SearchProductsByName(string productName)
     {
-        return await service.SearchProductByNameAsync(productName);
+        return await service.SearchProductsByNameAsync(productName);
     }
 
     [AllowAnonymous]

@@ -6,9 +6,9 @@ namespace InnoShop.ProductService.Domain.Repositories;
 
 public class ProductRepository(ApplicationContext context) : BaseRepository<Product, int>(context), IProductRepository
 {
-    public async Task<Product?> SearchProductByNameAsync(string productName)
+    public async Task<IEnumerable<Product?>> SearchProductsByNameAsync(string productName)
     {
-        return await Table.SingleOrDefaultAsync(x => x.Name == productName);
+        return await Table.Where(x => Equals(x.Name, productName)).ToListAsync();
     }
 
     public async Task<IEnumerable<Product?>> SearchProductsBySubstringAsync(string productNameSubstring)

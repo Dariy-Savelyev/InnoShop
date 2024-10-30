@@ -7,7 +7,7 @@ public interface IProductService : IBaseService
 {
     Task<IEnumerable<GetAllProductModel>> GetAllProductsAsync();
 
-    Task<ProductSearchModel> SearchProductByNameAsync(string productName);
+    Task<IEnumerable<ProductSearchModel>> SearchProductsByNameAsync(string productName);
 
     Task<IEnumerable<ProductSearchModel>> SearchProductsBySubstringAsync(string productNameSubstring);
 
