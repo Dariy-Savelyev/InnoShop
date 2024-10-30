@@ -31,11 +31,7 @@ public static class ApplicationModule
 
         builder.Services.AddAutoMapper(typeof(UserProfile));
 
-        builder.Services.AddValidatorsFromAssemblies(new[]
-        {
-            typeof(UserLoginValidator).Assembly,
-            typeof(ProductCreationValidator).Assembly
-        });
+        builder.Services.AddValidatorsFromAssemblyContaining<UserLoginValidator>();
 
         builder.Services.AddSwaggerGen(c =>
         {

@@ -63,7 +63,7 @@ public class GatewayService(IConfiguration configuration, HttpClient httpClient)
         };
 
         var deserializedContent = JsonSerializer.Deserialize<T>(contentString, jsonSerializerOptions);
-        
+
         return deserializedContent!;
     }
 

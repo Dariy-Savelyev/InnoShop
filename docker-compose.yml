@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   userservice:
     build:
@@ -8,15 +6,12 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
-    volumes:
-      - ./UserService/InnoShop.UserService.WebApi/appsettings.json:/app/appsettings.json:ro
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__App=Server=db;Database=UserDb;User Id=sa;Password=fresqe123d;TrustServerCertificate=True
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__App=Server=database;Database=UserDb;User Id=sa;Password=${DATABASE_PASSWORD};TrustServerCertificate=True
     user: appuser
     depends_on:
-      - db
+      - database
     networks:
       - innoshop-network
 
@@ -26,24 +21,34 @@ services:
       dockerfile: ProductService/InnoShop.ProductService.WebApi/Dockerfile
     ports:
       - "8082:8080"
-      - "8083:8081"
-    volumes:
-      - ./ProductService/InnoShop.ProductService.WebApi/appsettings.json:/app/appsettings.json:ro  
+      - "8083:8081"  
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__App=Server=db;Database=ProductDb;User Id=sa;Password=fresqe123d;TrustServerCertificate=True
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__App=Server=database;Database=ProductDb;User Id=sa;Password=${DATABASE_PASSWORD};TrustServerCertificate=True
     user: appuser
     depends_on:
-      - db
+      - database
     networks:
       - innoshop-network
 
-  db:
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: GatewayService/InnoShop.GatewayService.WebApi/Dockerfile
+    ports:
+      - "8084:8080"
+      - "8085:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    user: appuser
+    networks:
+      - innoshop-network
+
+  database:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=fresqe123d
+      - MSSQL_SA_PASSWORD=${DATABASE_PASSWORD}
       - MSSQL_PID=Express
     ports:
       - "1433:1433"
