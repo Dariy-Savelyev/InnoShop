@@ -18,7 +18,7 @@ public class RequestService(IConfiguration configuration, HttpClient httpClient)
 
         var baseUrl = configuration["ProductApi:BaseUrl"];
         var fullUrl = $"{baseUrl}/{path}";
-
+        
         var request = new HttpRequestMessage(method, fullUrl)
         {
             Content = content

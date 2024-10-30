@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using InnoShop.GatewayService.Application.ServiceInterfaces;
 using InnoShop.GatewayService.Application.ComponentInterfaces;
+using InnoShop.GatewayService.Application.ServiceInterfaces;
 using InnoShop.ProductService.Application.Validators;
-using InnoShop.UserService.Application.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +29,6 @@ public static class ApplicationModule
 
         builder.Services.AddValidatorsFromAssemblies(new[]
         {
-            //typeof(UserLoginValidator).Assembly,
             typeof(ProductCreationValidator).Assembly
         });
 

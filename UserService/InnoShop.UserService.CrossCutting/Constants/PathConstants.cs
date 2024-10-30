@@ -15,12 +15,4 @@ public class PathConstants
     public static readonly string SearchProductsBySubstringPath = "api/Product/SearchProductsBySubstring";
 
     public static readonly string SortProductsByFieldPath = "api/Product/SortProductsByField";
-
-    public static readonly string ProductDeletePath4 = "api/Product/Delete";
-
-    public static readonly string ProductDeletePath3 = "api/Product/Delete";
-
-    public static readonly string ProductDeletePath2 = "api/Product/Delete";
-
-    public static readonly string ProductDeletePath1 = "api/Product/Delete";
 }

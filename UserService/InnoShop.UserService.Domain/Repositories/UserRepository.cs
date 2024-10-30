@@ -23,11 +23,11 @@ public class UserRepository(ApplicationContext context) : BaseRepository<User, s
 
     public bool IsUniqueEmail(string email)
     {
-        return Table.Any(x => x.Email != email);
+        return Table.All(x => x.Email != email);
     }
 
     public bool IsUniqueName(string userName)
     {
-        return Table.Any(y => y.UserName != userName);
+        return Table.All(y => y.UserName != userName);
     }
 }

@@ -26,7 +26,7 @@ public class GatewayService(IConfiguration configuration, HttpClient httpClient)
             Content = content
         };
 
-        request.Headers.TryAddWithoutValidation("X-User-Id", userId);
+        request.Headers.TryAddWithoutValidation("User-Id", userId);
 
         var response = await httpClient.SendAsync(request);
 
@@ -41,10 +41,8 @@ public class GatewayService(IConfiguration configuration, HttpClient httpClient)
         }
     }
 
-    public async Task<T> GetGatewayResponseDataAsync<T>(HttpMethod method, string path, string data, string dataName, ClaimsPrincipal user)
+    public async Task<T> GetGatewayResponseDataAsync<T>(HttpMethod method, string path, string data, string dataName)
     {
-        var userId = user.FindFirst(ClaimTypes.Name)?.Value;
-
         var baseUrl = configuration["ProductApi:BaseUrl"];
         var fullUrl = $"{baseUrl}/{path}";
 
@@ -55,20 +53,17 @@ public class GatewayService(IConfiguration configuration, HttpClient httpClient)
 
         var request = new HttpRequestMessage(method, fullUrl);
 
-        if (userId != null)
-        {
-            request.Headers.TryAddWithoutValidation("X-User-Id", userId);
-        }
-
         var response = await httpClient.SendAsync(request);
 
         var contentString = await response.Content.ReadAsStringAsync();
 
-        var deserializedContent = JsonSerializer.Deserialize<T>(contentString, new JsonSerializerOptions
+        var jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
-        });
+        };
 
+        var deserializedContent = JsonSerializer.Deserialize<T>(contentString, jsonSerializerOptions);
+        
         return deserializedContent!;
     }
 
@@ -85,10 +80,12 @@ public class GatewayService(IConfiguration configuration, HttpClient httpClient)
 
         var contentString = await response.Content.ReadAsStringAsync();
 
-        var deserializedContent = JsonSerializer.Deserialize<T>(contentString, new JsonSerializerOptions
+        var jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
-        });
+        };
+
+        var deserializedContent = JsonSerializer.Deserialize<T>(contentString, jsonSerializerOptions);
 
         return deserializedContent!;
     }

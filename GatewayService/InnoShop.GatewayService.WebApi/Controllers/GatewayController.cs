@@ -13,21 +13,21 @@ public class GatewayController(IGatewayService gatewayService) : BaseController
     [HttpGet]
     public async Task<IEnumerable<GetAllProductModel>> SendGatewayGetAllProductsRequest()
     {
-        return await gatewayService.GetGatewayResponseDataAsync<IEnumerable<GetAllProductModel>>(HttpMethod.Get, PathConstants.GetAllProductsPath, null!,null!, User);
+        return await gatewayService.GetGatewayResponseDataAsync<IEnumerable<GetAllProductModel>>(HttpMethod.Get, PathConstants.GetAllProductsPath, null!, null!);
     }
 
     [AllowAnonymous]
     [HttpGet]
     public async Task<IEnumerable<ProductSearchModel>> SendGatewaySearchProductsByNameRequest(string productName)
     {
-        return await gatewayService.GetGatewayResponseDataAsync<IEnumerable<ProductSearchModel>>(HttpMethod.Get, PathConstants.SearchProductsByNamePath, productName, "productName", User);
+        return await gatewayService.GetGatewayResponseDataAsync<IEnumerable<ProductSearchModel>>(HttpMethod.Get, PathConstants.SearchProductsByNamePath, productName, "productName");
     }
 
     [AllowAnonymous]
     [HttpGet]
     public async Task<IEnumerable<ProductSearchModel>> SendGatewaySearchProductsBySubstringRequest(string productNameSubstring)
     {
-        return await gatewayService.GetGatewayResponseDataAsync<IEnumerable<ProductSearchModel>>(HttpMethod.Get, PathConstants.SearchProductsBySubstringPath, productNameSubstring, "productNameSubstring", User);
+        return await gatewayService.GetGatewayResponseDataAsync<IEnumerable<ProductSearchModel>>(HttpMethod.Get, PathConstants.SearchProductsBySubstringPath, productNameSubstring, "productNameSubstring");
     }
 
     [AllowAnonymous]

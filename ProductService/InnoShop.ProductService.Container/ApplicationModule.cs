@@ -2,7 +2,6 @@
 using InnoShop.ProductService.Application.MapperProfiles;
 using InnoShop.ProductService.Application.ServiceInterfaces;
 using InnoShop.ProductService.Application.Validators;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -31,12 +30,6 @@ public static class ApplicationModule
                 Version = "v1"
             });
         });
-
-        builder.Services.AddAuthentication("GatewayAuth")
-            .AddScheme<AuthenticationSchemeOptions, GatewayService.Services.AuthenticationService>("GatewayAuth", options =>
-            {
-                options.TimeProvider = TimeProvider.System;
-            });
 
         return builder;
     }
