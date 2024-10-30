@@ -140,6 +140,11 @@ public class AccountService(
     {
         var user = await userRepository.GetUserByVerificationCodeAsync(model.PasswordResetCodeToken);
 
+        if (user == null)
+        {
+            throw ExceptionHelper.GetNotFoundException("Invalid reset code.");
+        }
+
         user!.PasswordHash = PasswordHelper.HashPassword(model.Password);
         user.PasswordResetCodeToken = string.Empty;
 
